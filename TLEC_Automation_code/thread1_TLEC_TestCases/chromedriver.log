@@ -1,0 +1,19 @@
+[0.000][INFO]:      ChromeDriver 23.0.1240.0 C:\Python36\chromedriver.exe
+[2.062][FINE]:      Initializing session with capabilities {
+   "browserName": "chrome",
+   "chromeOptions": {
+      "args": [  ],
+      "extensions": [  ],
+      "prefs": {
+         "download.default_directory": "D:\\Python\\pycharm_code\\Local_Automation_Code\\Download_file",
+         "profile.default_content_settings.popups": 0
+      }
+   },
+   "platform": "ANY",
+   "version": ""
+}
+
+[2.062][INFO]:      Launching chrome: "C:\Users\admin\AppData\Local\Google\Chrome\Application\chrome.exe" --enable-logging --log-level=1 --disable-hang-monitor --disable-prompt-on-repost --dom-automation --full-memory-crash-report --no-default-browser-check --no-first-run --disable-background-networking --disable-sync --disable-translate --disable-web-resources --safebrowsing-disable-auto-update --safebrowsing-disable-download-protection --disable-client-side-phishing-detection --disable-component-update --disable-default-apps --ignore-certificate-errors about:blank
+[47.626][SEVERE]:   Failed to initialize connection
+[57.775][WARNING]:  Chrome still running, terminating...
+[57.775][INFO]:     Chrome shutdown
