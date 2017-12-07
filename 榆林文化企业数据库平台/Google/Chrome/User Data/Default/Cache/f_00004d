@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> 榆林市文化产业数据库平台    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    
+    <!-- booratao ace css -->
+    
+    <!-- basic styles -->
+
+	<link href="/resources/manage/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/resources/manage/css/font-awesome.min.css" />
+
+	<!--[if IE 7]>
+		  <link rel="stylesheet" href="/resources/manage/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+
+	<!-- page specific plugin styles -->
+
+	<!-- fonts -->
+
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />  -->
+
+	<!-- ace styles -->
+
+	<link rel="stylesheet" href="/resources/manage/css/ace.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-skins.min.css" />
+
+	<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/resources/manage/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+	
+	<!-- ace settings handler -->
+
+	<script src="/resources/manage/js/ace-extra.min.js"></script>
+		
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+	<!--[if lt IE 9]>
+		<script src="/resources/manage/js/html5shiv.js"></script>
+		<script src="/resources/manage/js/respond.min.js"></script>
+	<![endif]-->	
+	
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+
+	<script type="text/javascript">
+	window.jQuery || document.write("<script src='/resources/manage/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	</script>
+
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+		
+	<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/resources/manage/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	</script>
+		
+	<![endif]-->
+
+	<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/resources/manage/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	</script>
+	
+	<script src="/resources/manage/js/bootstrap.min.js"></script>
+	<script src="/resources/manage/js/typeahead-bs2.min.js"></script>
+
+	<!-- page specific plugin scripts -->
+
+	<!--[if lte IE 8]>
+		  <script src="/resources/manage/js/excanvas.min.js"></script>
+	<![endif]-->
+
+	<script src="/resources/manage/js/jquery.slimscroll.min.js"></script>
+	<script src="/resources/manage/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="/resources/manage/js/jquery.sparkline.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.resize.min.js"></script>
+
+	<!-- ace scripts -->
+
+	<script src="/resources/manage/js/ace-elements.min.js"></script>
+	<script src="/resources/manage/js/ace.min.js"></script>
+ 	
+ 	<!-- jquery ui -->
+ 	<!-- <script src="/resources/manage/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="/resources/manage/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/resources/manage/js/jquery-ui/jquery-ui.js"></script> -->
+	<script type="text/javascript" src="/resources/manage/js/jquery-ui/jquery.blockUI.js"></script>
+ 	<!-- jquery validator -->
+ 	<link rel="stylesheet" href="/resources/manage/css/validator/jquery.validator.css" />
+
+	<script type="text/javascript" src="/resources/manage/js/validator/jquery.validator.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/validator/zh_CN.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/manage.js"></script>
+	<!-- ztree -->
+	<link rel="stylesheet" href="/resources/manage/css/zTree/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/resources/manage/js/zTree/jquery.ztree.all-3.5.min.js"></script>
+ 	
+ 	<!--User Defined -->
+    <link rel="stylesheet" href="/resources/manage/css/common.css" />
+    <script type="text/javascript" src="/resources/manage/js/menu/common.js"></script>
+    
+	<!-- inline scripts related to this page -->
+    
+
+</head>
+<script type="text/javascript" src="/resources/date/WdatePicker.js"></script>
+<script src="/resources/manage/js/Dialog.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<script type="text/javascript">
+	var winObj;
+	function openWin(id) {
+		winObj = openWindows('/manage/enterprise/show?id='+id+'&isDialog=true','基础信息','userId',850,540,true);
+	}
+	function closeUserWin(){
+		winObj.close();
+	}
+	$(function(){
+		$("#add").click(function(){
+			window.location.href = '/manage/enterprise/add';
+		})
+		
+		$('#deleteAll').click(function(){
+			var ids = getCheckBoxValue();
+			var len = $(":checkbox[name='ids']:checked").length;
+			if (ids.length == 0) {
+				alert('未选种需要删除的数据！');
+				return false;
+			}
+			if (!confirm("你确定要删除选中的" + len + "条记录吗？"))
+				return false;
+				var url = "/manage/enterprise/deletes";
+				//location.href=url+"?ids="+ids;		
+				$.ajax({
+				    type: 'POST',
+				    url: url ,
+				    data: {"ids":ids} ,
+				    dataType: "json",
+		            success:function(data){
+		            	alert(data.msg);
+				    	location.href="/manage/enterprise/selectList";
+		            }
+				});  
+		})
+	})
+	
+	function getCheckBoxValue() {
+		var id_array=new Array();  
+		$('input[name="ids"]:checked').each(function(){  
+		    id_array.push($(this).val());//向数组中添加元素  
+		});  
+		var idstr=id_array.join(',');//将数组元素连接起来以构建一个字符串  
+		return idstr;
+	}
+	function exportEnterise(){
+		var urlPost = "/manage/enterprise/exportEnterise";
+		$("#queryForm").attr('action',urlPost);
+		$("#queryForm").submit();
+	}
+function subm(){
+		
+		var urlPost = "/manage/enterprise/selectList";
+		$("#queryForm").attr('action',urlPost);
+		$("#queryForm").submit();
+	}
+$(function() {
+	$("#regOrgId").change(function() {
+		ajaxLoad();
+	});
+	ajaxLoad();
+	$("#county").change(function() {
+		ajaxLoad1();
+	});
+	ajaxLoad1();
+	
+	var ss=$("#county").val();
+	if(ss!=null&&ss!=""){
+		alert(ss);
+		ajaxLoad1();
+	}
+});
+function ajaxLoad(){
+	var byCity=$("#regOrgId").children("option:selected").val();
+	$("option[name='sa']").remove();
+	if (byCity == "") {
+		return;
+	}
+	$.getJSON('selectByCity', {
+		"id" : byCity
+	}, function(data) {
+		$("option[name='sa']").remove();
+		for ( var i = 0; i < data.length; i++) {
+			$("#county").append("<option name=\"sa\"  value="+data[i].id+">" + data[i].depName+ "</option>");
+		}
+		 jQuery("#county").val();
+		 ajaxLoad1();
+	});
+}
+function ajaxLoad1(){
+	var byCity=$("#county").children("option:selected").val();
+	$("option[name='sa1']").remove();
+	if (byCity == "") {
+		return;
+	}
+	$.getJSON('selectByCity', {
+		"id" : byCity
+	}, function(data) {
+		$("option[name='sa1']").remove();
+		for ( var i = 0; i < data.length; i++) {
+			$("#place").append(
+					"<option name=\"sa1\"  value="+data[i].id+">" + data[i].depName
+							+ "</option>");
+		}
+		jQuery("#place").val();
+	});
+}
+
+function resets(){
+	window.location.href ="/manage/enterprise/selectList";
+}
+
+</script>
+<body>
+	<form role="form" style="margin: 5px;">
+	<!--  href="javascipt:void(0);" onclick="importEnterprise();"-->
+	
+		<div class="fl-l lead-btn" onclick="window.location.href='uploadEnterise';">导入企业信息</div>
+		<div class="fl-l lead-btn" onclick="exportEnterise();">导出企业信息</div>
+		<div class="fl-l lead-btn" onclick="window.location.href='selectRemainList';">查看导入失败数据</div>
+		<div class="clear"></div>
+	</form>
+	
+	<div class="form-bg">
+	<form action="/manage/enterprise/selectList" name="queryForm" id="queryForm" method="post">
+	
+		<ul class="fom-ul">
+			<li class="formli">
+				<label>企业名称：</label>
+				<input name="enterpriseName" type="text" style="width:150px;" value="" class="common-txt"  id="enterpriseName"/>
+			</li>
+			<li class="formli">
+				<label>注册号：</label>
+				<input name="regNum" type="text" style="width:150px;" value="" class="common-txt" id="regNum"/>
+			</li>
+			<li class="formli">
+				<label>统一社会信用代码：</label>
+				<input name="creditCode" type="text" style="width:150px;" value="" class="common-txt" id="creditCode"/>
+			</li>
+			<li class="formli">
+				<label>法人身份证号：</label>
+				<input name="idenCard" type="text" style="width:150px;" value="" class="common-txt" id="idenCard"/>
+			</li>
+			<li class="formli">
+				<label>登记机关(市)：</label>
+				<select name="regOrgId" class="common-txt" id="regOrgId" style="width:130px;">
+					<option value="">请选择</option>
+						<option value="1" >榆林市工商行政管理局</option>
+						<option value="1508901692722455" >      鼓楼工商所</option>
+						<option value="1509431867699421" >榆林市工商局</option>
+						<option value="1509434655318701" >1</option>
+				</select>
+			</li>
+			<li class="formli">
+				<label>登记机关(区/县)：</label>
+				<select name="countyId" class="common-txt" id="county" style="width:130px;">
+					<option value="">请先选择市</option>
+				</select>
+			</li>
+			<li class="formli">
+				<label>登记机关(所)：</label>
+				<select name="depId"  class="common-txt" id="place" style="width:130px;">
+					<option value="">请先选择(区/县)</option>
+				</select>
+			</li>
+			<li class="formli">
+				<label>企业类型：</label>
+				<select name="enterTypeBaseCodeId" class="common-txt" id="enterTypeBaseCodeId">
+				<option value="">请选择</option>
+				<option value="1501057378567618" >个体</option>
+				<option value="1501057726182447" >有限责任公司(自然人独资)</option>
+				<option value="1501057775003642" >普通合伙企业</option>
+				<option value="1501057809949574" >有限责任公司(自然人投资或控股)</option>
+				<option value="1501057839639790" >个人独资企业</option>
+				<option value="1501057862150574" >事业单位营业</option>
+				<option value="1501057879453934" >集团</option>
+				<option value="1501057942917320" >股份有限公司分公司(上市、国有控股)</option>
+				<option value="1501058027236626" >全民所有制分支机构(非法人)</option>
+				<option value="1501058124437252" >内资企业法人</option>
+				<option value="1501058207103957" >有限责任公司(国有独资)</option>
+				<option value="1501058311525820" >有限责任公司（非自然人投资或控股的法人独资）</option>
+				<option value="1501140719565940" >私营企业</option>
+				<option value="1501141330630906" >个体工商户</option>
+				<option value="1501141330703433" >内资企业</option>
+				<option value="1501141331969501" >外商投资企业</option>
+				<option value="1501141332977628" >农民专业合作社</option>
+				<option value="1501837974635285" >有限责任公司</option>
+				<option value="1501837974965586" >其他有限责任公司</option>
+				<option value="1501837978363813" >集体所有制</option>
+				<option value="1501837978709203" >有限责任公司分公司(自然人投资或控股)</option>
+				<option value="1501837981804333" >个人独资企业分支机构</option>
+				<option value="1501837985239293" >股份有限公司分公司(上市)</option>
+				<option value="1501837985705188" >有限责任公司分公司</option>
+				<option value="1501837986037228" >有限责任公司分公司(国有独资)</option>
+				<option value="1501837991872155" >国有经营单位(非法人)</option>
+				<option value="1501837994184678" >股份有限公司分公司(非上市)</option>
+				<option value="1501837995196124" >股份有限公司分公司</option>
+				<option value="1501838009921348" >合伙企业</option>
+				<option value="1501838011113585" >外商投资企业分支机构</option>
+				<option value="1501838012508347" >农民专业合作经济组织</option>
+				<option value="1501838018248151" >内资分公司</option>
+				<option value="1502164428497505" >有限责任公司分公司（非自然人投资或控股的法人独资）</option>
+				<option value="1509431867616732" >私企</option>
+				<option value="1509434655301820" >1</option>
+				</select>
+			</li>
+			<li class="formli">
+				<label>行业：</label>
+				<select name="industryBaseCodeId" class="common-txt" id="industryBaseCodeId">
+				<option value="">请选择</option>
+				    <optgroup label="新闻服务"></optgroup>
+				    <option value="8510">&nbsp;&nbsp;新闻业</option>
+				    <optgroup label="出版服务"></optgroup>
+				    <option value="8521">&nbsp;&nbsp;图书出版</option>
+				    <option value="8522">&nbsp;&nbsp;报纸出版</option>
+				    <option value="8523">&nbsp;&nbsp;期刊出版</option>
+				    <option value="8524">&nbsp;&nbsp;音像制品出版</option>
+				    <option value="8525">&nbsp;&nbsp;电子出版物出版</option>
+				    <option value="8529">&nbsp;&nbsp;其他出版业</option>
+				    <optgroup label="发行服务"></optgroup>
+				    <option value="5143">&nbsp;&nbsp;图书批发</option>
+				    <option value="5144">&nbsp;&nbsp;报刊批发</option>
+				    <option value="5145">&nbsp;&nbsp;音像制品及电子出版物批发</option>
+				    <option value="5243">&nbsp;&nbsp;图书、报刊零售</option>
+				    <option value="5244">&nbsp;&nbsp;音像制品及电子出版物零售</option>
+				    <optgroup label="广播电视服务"></optgroup>
+				    <option value="8610">&nbsp;&nbsp;广播</option>
+				    <option value="8620">&nbsp;&nbsp;电视</option>
+				    <optgroup label="电影和影视录音服务"></optgroup>
+				    <option value="8630">&nbsp;&nbsp;电影和影视节目制作</option>
+				    <option value="8640">&nbsp;&nbsp;电影和影视节目发行</option>
+				    <option value="8650">&nbsp;&nbsp;电影放映</option>
+				    <option value="8660">&nbsp;&nbsp;录音制作</option>
+				    <optgroup label="文艺创作与表演服务"></optgroup>
+				    <option value="8710">&nbsp;&nbsp;文艺创作与表演</option>
+				    <option value="8720">&nbsp;&nbsp;艺术表演场馆</option>
+				    <optgroup label="图书馆与档案馆服务"></optgroup>
+				    <option value="8731">&nbsp;&nbsp;图书馆</option>
+				    <option value="8732">&nbsp;&nbsp;档案馆</option>
+				    <optgroup label="文化遗产保护服务"></optgroup>
+				    <option value="8740">&nbsp;&nbsp;文物及非物质文化遗产保护</option>
+				    <option value="8750">&nbsp;&nbsp;博物馆</option>
+				    <option value="8760">&nbsp;&nbsp;烈士陵园、纪念馆</option>
+				    <optgroup label="群众文化服务"></optgroup>
+				    <option value="8770">&nbsp;&nbsp;群众文化活动</option>
+				    <optgroup label="文化研究和社团服务"></optgroup>
+				    <option value="7350">&nbsp;&nbsp;社会人文科学研究</option>
+				    <option value="9421">&nbsp;&nbsp;专业性团体（的服务）</option>
+				    <optgroup label="文化艺术培训服务"></optgroup>
+				    <option value="8293">&nbsp;&nbsp;文化艺术培训</option>
+				    <option value="8299">&nbsp;&nbsp;其他未列明教育</option>
+				    <optgroup label="其他文化艺术服务"></optgroup>
+				    <option value="8790">&nbsp;&nbsp;其他文化艺术业</option>
+				    <optgroup label="互联网信息服务"></optgroup>
+				    <option value="6420">&nbsp;&nbsp;互联网信息服务</option>
+				    <optgroup label="增值电信服务（文化部分）"></optgroup>
+				    <option value="6319">&nbsp;&nbsp;其他电信服务</option>
+				    <optgroup label="广播电视传输服务"></optgroup>
+				    <option value="6321">&nbsp;&nbsp;有线广播电视传输服务</option>
+				    <option value="6322">&nbsp;&nbsp;无线广播电视传输服务</option>
+				    <option value="6330">&nbsp;&nbsp;卫星传输服务</option>
+				    <optgroup label="广告服务"></optgroup>
+				    <option value="7240">&nbsp;&nbsp;广告业</option>
+				    <optgroup label="文化软件服务"></optgroup>
+				    <option value="6510">&nbsp;&nbsp;软件开发</option>
+				    <option value="6591">&nbsp;&nbsp;数字内容服务</option>
+				    <optgroup label="建筑设计服务"></optgroup>
+				    <option value="7482">&nbsp;&nbsp;工程勘察设计</option>
+				    <optgroup label="专业设计服务"></optgroup>
+				    <option value="7491">&nbsp;&nbsp;专业化设计服务</option>
+				    <optgroup label="景区游览服务"></optgroup>
+				    <option value="7712">&nbsp;&nbsp;野生动物保护</option>
+				    <option value="7713">&nbsp;&nbsp;野生植物保护</option>
+				    <option value="7851">&nbsp;&nbsp;公园管理</option>
+				    <option value="7852">&nbsp;&nbsp;游览景区管理</option>
+				    <optgroup label="娱乐休闲服务"></optgroup>
+				    <option value="8911">&nbsp;&nbsp;歌舞厅娱乐活动</option>
+				    <option value="8912">&nbsp;&nbsp;电子游艺厅娱乐活动</option>
+				    <option value="8913">&nbsp;&nbsp;网吧活动</option>
+				    <option value="8919">&nbsp;&nbsp;其他室内娱乐活动</option>
+				    <option value="8920">&nbsp;&nbsp;游乐园</option>
+				    <option value="8990">&nbsp;&nbsp;其他娱乐业</option>
+				    <optgroup label="摄影扩印服务"></optgroup>
+				    <option value="7492">&nbsp;&nbsp;摄影扩印服务</option>
+				    <optgroup label="工艺美术品的制造"></optgroup>
+				    <option value="2431">&nbsp;&nbsp;雕塑工艺品制造</option>
+				    <option value="2432">&nbsp;&nbsp;金属工艺品制造</option>
+				    <option value="2433">&nbsp;&nbsp;漆器工艺品制造</option>
+				    <option value="2434">&nbsp;&nbsp;花画工艺品制造</option>
+				    <option value="2435">&nbsp;&nbsp;天然植物纤维编织工艺品制造</option>
+				    <option value="2436">&nbsp;&nbsp;抽纱刺绣工艺品制造</option>
+				    <option value="2437">&nbsp;&nbsp;地毯、挂毯制造</option>
+				    <option value="2438">&nbsp;&nbsp;珠宝首饰及有关物品制造</option>
+				    <option value="2439">&nbsp;&nbsp;其他工艺美术品制造</option>
+				    <optgroup label="园林、陈设艺术及其他陶瓷制品的制造"></optgroup>
+				    <option value="3079">&nbsp;&nbsp;园林、陈设艺术及其他陶瓷制品制造</option>
+				    <optgroup label="工艺美术品的销售"></optgroup>
+				    <option value="5146">&nbsp;&nbsp;首饰、工艺品及收藏品批发</option>
+				    <option value="5245">&nbsp;&nbsp;珠宝首饰零售</option>
+				    <option value="5246">&nbsp;&nbsp;工艺美术品及收藏品零售</option>
+				    <optgroup label="版权服务"></optgroup>
+				    <option value="7250">&nbsp;&nbsp;知识产权服务</option>
+				    <optgroup label="印刷复制服务"></optgroup>
+				    <option value="2311">&nbsp;&nbsp;书、报刊印刷</option>
+				    <option value="2312">&nbsp;&nbsp;本册印制</option>
+				    <option value="2319">&nbsp;&nbsp;包装装潢及其他印刷</option>
+				    <option value="2320">&nbsp;&nbsp;装订及印刷相关服务</option>
+				    <option value="2330">&nbsp;&nbsp;记录媒介复制</option>
+				    <optgroup label="文化经纪代理服务"></optgroup>
+				    <option value="8941">&nbsp;&nbsp;文化娱乐经纪人</option>
+				    <option value="8949">&nbsp;&nbsp;其他文化艺术经纪代理</option>
+				    <optgroup label="文化贸易代理与拍卖服务"></optgroup>
+				    <option value="5181">&nbsp;&nbsp;贸易代理</option>
+				    <option value="5182">&nbsp;&nbsp;拍卖</option>
+				    <optgroup label="文化出租服务"></optgroup>
+				    <option value="7121">&nbsp;&nbsp;娱乐及体育设备出租</option>
+				    <option value="7122">&nbsp;&nbsp;图书出租</option>
+				    <option value="7123">&nbsp;&nbsp;音像制品出租</option>
+				    <optgroup label="会展服务"></optgroup>
+				    <option value="7292">&nbsp;&nbsp;会议及展览服务</option>
+				    <optgroup label="其他文化辅助生产"></optgroup>
+				    <option value="7299">&nbsp;&nbsp;其他未列明商务服务业</option>
+				    <optgroup label="办公用品的制造"></optgroup>
+				    <option value="2411">&nbsp;&nbsp;文具制造</option>
+				    <option value="2412">&nbsp;&nbsp;笔的制造</option>
+				    <option value="2414">&nbsp;&nbsp;墨水、墨汁制造</option>
+				    <optgroup label="乐器的制造"></optgroup>
+				    <option value="2421">&nbsp;&nbsp;中乐器制造</option>
+				    <option value="2422">&nbsp;&nbsp;西乐器制造</option>
+				    <option value="2423">&nbsp;&nbsp;电子乐器制造</option>
+				    <option value="2429">&nbsp;&nbsp;其他乐器及零件制造</option>
+				    <optgroup label="玩具的制造"></optgroup>
+				    <option value="2450">&nbsp;&nbsp;玩具制造</option>
+				    <optgroup label="游艺器材及娱乐用品的制造"></optgroup>
+				    <option value="2461">&nbsp;&nbsp;露天游乐场所游乐设备制造</option>
+				    <option value="2462">&nbsp;&nbsp;游艺用品及室内游艺器材制造</option>
+				    <option value="2469">&nbsp;&nbsp;其他娱乐用品制造</option>
+				    <optgroup label="视听设备的制造"></optgroup>
+				    <option value="3951">&nbsp;&nbsp;电视机制造</option>
+				    <option value="3952">&nbsp;&nbsp;音响设备制造</option>
+				    <option value="3953">&nbsp;&nbsp;影视录放设备制造</option>
+				    <optgroup label="焰火、鞭炮产品的制造"></optgroup>
+				    <option value="2672">&nbsp;&nbsp;焰火、鞭炮产品制造</option>
+				    <optgroup label="文化用纸的制造"></optgroup>
+				    <option value="2221">&nbsp;&nbsp;机制纸及纸板制造</option>
+				    <option value="2222">&nbsp;&nbsp;手工纸制造</option>
+				    <optgroup label="文化用油墨颜料的制造"></optgroup>
+				    <option value="2642">&nbsp;&nbsp;油墨及类似产品制造</option>
+				    <option value="2643">&nbsp;&nbsp;颜料制造</option>
+				    <optgroup label="文化用化学品的制造"></optgroup>
+				    <option value="2664">&nbsp;&nbsp;信息化学品制造</option>
+				    <optgroup label="其他文化用品的制造"></optgroup>
+				    <option value="3872">&nbsp;&nbsp;照明灯具制造</option>
+				    <option value="3990">&nbsp;&nbsp;其他电子设备制造</option>
+				    <optgroup label="文具乐器照相器材的销售"></optgroup>
+				    <option value="5141">&nbsp;&nbsp;文具用品批发</option>
+				    <option value="5241">&nbsp;&nbsp;文具用品零售</option>
+				    <option value="5247">&nbsp;&nbsp;乐器零售</option>
+				    <option value="5248">&nbsp;&nbsp;照相器材零售</option>
+				    <optgroup label="文化用家电的销售"></optgroup>
+				    <option value="5137">&nbsp;&nbsp;家用电器批发</option>
+				    <option value="5271">&nbsp;&nbsp;家用视听设备零售</option>
+				    <optgroup label="其他文化用品的销售"></optgroup>
+				    <option value="5149">&nbsp;&nbsp;其他文化用品批发</option>
+				    <option value="5249">&nbsp;&nbsp;其他文化用品零售</option>
+				    <optgroup label="印刷专用设备的制造"></optgroup>
+				    <option value="3542">&nbsp;&nbsp;印刷专用设备制造</option>
+				    <optgroup label="广播电视电影专用设备的制造"></optgroup>
+				    <option value="3471">&nbsp;&nbsp;电影机械制造</option>
+				    <option value="3931">&nbsp;&nbsp;广播电视节目制作及发射设备制造</option>
+				    <option value="3932">&nbsp;&nbsp;广播电视接收设备及器材制造</option>
+				    <option value="3939">&nbsp;&nbsp;应用电视设备及其他广播电视设备制造</option>
+				    <optgroup label="其他文化专用设备的制造"></optgroup>
+				    <option value="3472">&nbsp;&nbsp;幻灯及投影设备制造</option>
+				    <option value="3473">&nbsp;&nbsp;照相机及器材制造</option>
+				    <option value="3474">&nbsp;&nbsp;复印和胶印设备制造</option>
+				    <optgroup label="广播电视电影专用设备的批发"></optgroup>
+				    <option value="5178">&nbsp;&nbsp;通讯及广播电视设备批发</option>
+				    <optgroup label="舞台照明设备的批发"></optgroup>
+				    <option value="5176">&nbsp;&nbsp;电气设备批发</option>
+				    <optgroup label="1"></optgroup>
+			</select>
+			</li>
+			<li class="formli">
+				<label>企业类别：</label>
+				<select name="enterpriseTypeBaseCodeId" class="common-txt" id="enterpriseTypeBaseCodeId">
+				<option value="">请选择</option>
+				<option value="1501140209620290" >个体工商户</option>
+				<option value="1501140227329556" >私营企业</option>
+				<option value="1501140245842149" >内资企业</option>
+				<option value="1501838011206840" >外商投资企业</option>
+				<option value="1501838012545646" >农民专业合作社</option>
+				<option value="1509431867682162" >1</option>
+			</select>
+			</li>
+			
+			<li class="formli">
+				<label>成立时间：</label>
+				<input name="regDate" id="regDate"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"  type="text" style="width:120px;" readonly="readonly"  value="" class="common-txt" />
+			</li>
+			
+			<li class="formli">
+				<label>核准时间：</label>
+				<input name="approvalDate" id="approvalDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" type="text" style="width:120px;" readonly="readonly" type="text" style="width:150px;" value="" class="common-txt" />
+			</li>
+			<li class="formli">
+				<button id="queryBtn" class="form-btn" type="button" onclick="subm();" value="查询" >查询</button>
+			</li>
+			<li class="formli">
+				<button class="form-btn" type="button" onclick="resets();" value="重置" >重置</button>
+			</li>
+		</ul>
+		<div class="clear"></div>
+		</form>
+	</div>
+	<ul class="form-ul">
+		<li><button class="delete-btn" id="deleteAll" type="button" value="" >删除全部</button></li>
+		<li><button class="edit-btn" id="add" type="button" value="新增" >新增</button></li> 
+	</ul>
+	<div class="clear"></div>
+	<div class="form-div">
+<form action="/manage/enterprise/selectList" name="queryForm1" id="form1" method="post">
+	<table id="sample-table-1" cellpadding="0" cellspacing="0" class="common-tbl">
+			<tr height="36" class="tr-bg">
+				<td width="38" class="center"><label>
+				<input type="checkbox" id="firstCheckbox" class="ace" />
+				<span class="lbl"></span> </label>
+				</td>
+				<td>企业名称</td>
+				<td>注册号</td>
+				<td>法定代表人</td>
+				<td>成立日期</td>
+				<td>管辖单位</td>
+				<td>企业类型</td>
+				<td>行业</td>
+				<td>操作</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890889549" /> <span class="lbl"></span> </label>
+				</td>
+				<td>榆林市榆阳区兴旺达农民养殖专业合作社</td>
+				<td>612701NA000194X</td>
+				<td>吴小虎</td>
+				<td>2009-09-16</td>
+ 				<td>马合工商所</td>
+	 			<td>农民专业合作经济组织</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890889549')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890889549">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890889549" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890825783" /> <span class="lbl"></span> </label>
+				</td>
+				<td>榆林市民间艺术团有限公司</td>
+				<td>612700100057290</td>
+				<td>康世进</td>
+				<td>2012-03-29</td>
+ 				<td>榆林市工商行政管理局</td>
+	 			<td>有限责任公司(国有独资)</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890825783')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890825783">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890825783" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890770916" /> <span class="lbl"></span> </label>
+				</td>
+				<td>神木县嘉月茶楼</td>
+				<td>612722645003805</td>
+				<td>薛文霞</td>
+				<td>2009-07-13</td>
+ 				<td>驼峰路工商所</td>
+	 			<td>个体</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890770916')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890770916">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890770916" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890717972" /> <span class="lbl"></span> </label>
+				</td>
+				<td>陕西宏昌鑫煤化实业集团</td>
+				<td>612700100019160</td>
+				<td></td>
+				<td>2009-07-22</td>
+ 				<td>榆林市工商行政管理局府谷县分局</td>
+	 			<td>集团</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890717972')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890717972">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890717972" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890613763" /> <span class="lbl"></span> </label>
+				</td>
+				<td>神木县左岸餐饮娱乐广场</td>
+				<td>612722605054291</td>
+				<td>李晓燕</td>
+				<td>2011-12-20</td>
+ 				<td>城区工商所</td>
+	 			<td>个体</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890613763')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890613763">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890613763" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890451226" /> <span class="lbl"></span> </label>
+				</td>
+				<td>神木县壮壮智力开发婴儿游泳馆</td>
+				<td>612722605012730</td>
+				<td>刘海波</td>
+				<td>2009-08-12</td>
+ 				<td>城区工商所</td>
+	 			<td>个体</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890451226')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890451226">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890451226" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890398749" /> <span class="lbl"></span> </label>
+				</td>
+				<td>米脂县电影院</td>
+				<td>612728000000216</td>
+				<td>李生军</td>
+				<td>2002-09-10</td>
+ 				<td>城关工商所</td>
+	 			<td>内资企业法人</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890398749')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890398749">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890398749" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890344898" /> <span class="lbl"></span> </label>
+				</td>
+				<td>陕西融和化集团</td>
+				<td>612700100018853</td>
+				<td></td>
+				<td>2009-07-09</td>
+ 				<td>榆林市工商行政管理局</td>
+	 			<td>集团</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890344898')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890344898">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890344898" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890177140" /> <span class="lbl"></span> </label>
+				</td>
+				<td>神木县聚友棋牌室</td>
+				<td>612722635008320</td>
+				<td>张朝香</td>
+				<td>2013-07-05</td>
+ 				<td>尔林兔工商所</td>
+	 			<td>个体</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890177140')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890177140">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890177140" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox"
+					 name="ids"	class="ace" value="1502433890127285" /> <span class="lbl"></span> </label>
+				</td>
+				<td>米脂县兰馨文化传媒有限公司</td>
+				<td>612728100009219</td>
+				<td>王香兰</td>
+				<td>2017-06-09</td>
+ 				<td>城关工商所</td>
+	 			<td>有限责任公司(自然人独资)</td>
+ 				<td>
+ 				</td>
+				<td>
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a onclick="openWin('1502433890127285')">查看</a><label class="common-lbl">|</label>
+						<a href="toEdit?id=1502433890127285">编辑</a><label class="common-lbl">|</label>
+						<a onclick="return isdelete();" href="deleteById?id=1502433890127285" >删除</a>
+					</div>
+				</td>
+			</tr>
+	</table>
+</div>
+<div class="total-right">
+			<input name="enterpriseName" type="hidden" value=""/>
+			<input name="regNum" type="hidden" value=""/>
+			<input name="creditCode" type="hidden" value="" />
+			<input name="idenCard" type="hidden" value=""/>
+			<input name="regOrgId" type="hidden" value=""/>
+			<input name="countyId" type="hidden" value=""/>
+			<input name="depId" type="hidden" value=""/>
+			<input name="enterTypeBaseCodeId" type="hidden" value=""/>
+			<input name="industryBaseCodeId" type="hidden" value=""/>
+			<input name="enterpriseTypeBaseCodeId" type="hidden" value=""/>
+			<input name="regDate" type="hidden" value=""/>
+			<input name="approvalDate" type="hidden" value=""/>
+				
+			<input type="hidden" name="pager.offset" id="pagerOffset" value="10"/>
+			<input type="hidden" id="queryFormId" value="#form1"/>
+			<input type="hidden" id="pageToUrl" value="/manage/enterprise/selectList" />
+
+<script type="text/javascript">
+
+function checkNum(obj){
+	var gopage=$(obj).val();
+	 var reg = new RegExp("^[0-9]*$");  
+	 if(!reg.test(gopage)){  
+        $(obj).val("");
+        return false;
+     }  
+     var _size=279;
+     if(gopage>_size){
+      $(obj).val(_size);
+     }
+}
+
+function queryData(opt,obj){
+	var url=$("#pageToUrl").val();
+	var _form=$("#queryFormId").val();
+	var currentPageNumber=Number($("#currentPageNumber").val());//当前页
+	var currentPageCount=Number($("#currentPageCount").val());//每页显示条数
+	var totalPageNum=$("#totalPageNum").val();//总页数
+	
+	var pageOffset=0;
+	if(opt=="1"){//下一页操作
+		pageOffset=currentPageNumber*currentPageCount;
+	}else if(opt=="0"){//上一页
+		pageOffset=0;
+		if(currentPageNumber-1<=1){
+			pageOffset=0;
+		}else{
+			pageOffset=(currentPageNumber-2)*currentPageCount;
+		}
+	}else if(opt=="3"){//尾页
+		pageOffset=(totalPageNum-1)*currentPageCount;
+	}else if(opt=="2"){//首页
+		pageOffset=0;
+	}else if(opt=="4"){//跳转页
+	  var pNo = $("#topageNo").val();
+	  if(pNo=="" || pNo==null || pNo=="undefined"){
+	  	return false;
+	  }
+	  pageOffset=(pNo-1)*10;
+	}else if(opt=="5"){//点击页码
+		var pn=$(obj).attr("pageNo");
+		if(pn-1<=0){
+			pageOffset=0;
+		}else{
+			pageOffset=(pn-1)*currentPageCount;
+		}
+	}
+	
+	$("#pagerOffset").val(pageOffset);
+	
+	$(_form).prop("action",url);
+	$(_form).submit();
+	$.blockUI({ message: "数据查询中，请稍候...",css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+    } });
+}
+
+</script>
+	<!-- 分页标签 1-->
+	<div class="pageDiv">
+					<input type="hidden" name="currentPageNumber" id="currentPageNumber" value="2" />
+					<input type="hidden" name="currentPageCount" id="currentPageCount" value="10" />
+					<input type="hidden" name="totalPageNum" id="totalPageNum" value="279" />
+					<input type="hidden" name="totalNum" id="totalNum" value="2787" />
+					<label class="">共2787条，当前第:2/279页</label>
+					<a href="#" onclick="queryData('2');" class="pageLink">首页</a>
+				<a href="#" onclick="queryData('0');" class="pageLink">上一页</a>
+	                <a href="#" onClick="queryData('5',this);" pageNo="1" class="pageLink">1</a>
+                <span class="selectPageLink">2</span>
+	                <a href="#" onClick="queryData('5',this);" pageNo="3" class="pageLink">3</a>
+	                <a href="#" onClick="queryData('5',this);" pageNo="4" class="pageLink">4</a>
+				<a href="#" onclick="queryData('1');" class="pageLink">下一页</a>
+				<a href="#" onclick="queryData('3');" class="pageLink">尾页</a>
+		   		  转到
+		      	<input id="topageNo" name="topageNo" onkeyup="checkNum(this);" class="page-txt" type="text" value />页
+		      <input type="button" class="page-btn" value="前往" onclick="queryData('4');" />
+		      
+	</div>	</div>
+<div class="clear"></div>
+</body>
+</html>
+<!-- page specific plugin scripts -->
+
+<script src="/resources/manage/js/jquery.dataTables.min.js"></script>
+<script src="/resources/manage/js/jquery.dataTables.bootstrap.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<script type="text/javascript">
+			jQuery(function($) {
+				var oTable1 = $('#sample-table-2').dataTable( {
+				"aoColumns": [
+			      { "bSortable": false },
+			      null, null,null, null, null,
+				  { "bSortable": false }
+				] } );
+				
+				
+				$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+			
+			
+				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('table')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+			
+					var off2 = $source.offset();
+					var w2 = $source.width();
+			
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+			})
+			function isdelete(){
+			if(!window.confirm("删除后将无法恢复,确定要删除吗?")){
+				return false;
+			}
+	}
+			
+	function importEnterprise(){
+			window.art.dialog({
+						id:'importEnterprise',
+						iframe:'/manage/enterprise/uploadEnterise',
+						title:'企业批量导入',
+						width:'700',
+						height:'260',
+						lock:true
+					}, function(){
+						var d = window.art.dialog({id:'importEnterprise'}).data.iframe;
+						var form = d.document.getElementById('myform');
+						form.submit();
+						d.close();
+					}, function(){
+						window.art.dialog({
+							id:'importEnterprise'
+						}).close();
+					});
+	}
+			
+</script>

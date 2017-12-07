@@ -1,0 +1,10 @@
+[13088:4392:1120/101455.953:WARNING:web_database.cc(111)] Web database is too new.
+[13088:4392:1120/101455.953:ERROR:web_database_backend.cc(113)] Cannot initialize the web database: 2
+[13088:9264:1120/101455.953:WARNING:extension_service.cc(453)] Loading extension specified by --load-component-extension as a regular extension. Extensions specified by --load-component-extension will not be loaded starting in M58. Use --load-extension or --disable-extensions-except.
+[13088:4392:1120/101455.953:ERROR:login_database.cc(550)] Password store database is too new, kCurrentVersionNumber=18, GetCompatibleVersionNumber=19
+[13088:4392:1120/101455.953:ERROR:password_store_default.cc(45)] Could not create/open login database.
+[13088:11560:1120/101455.984:ERROR:connection.cc(1947)]  sqlite error 1, errno -2: table urls has 8 columns but 7 values were supplied, sql: INSERT INTO urls SELECT * FROM history.urls WHERE typed_count > 0
+[13088:11560:1120/101455.984:ERROR:connection.cc(1947)]  sqlite error 1, errno -2: no such column: u.favicon_id, sql: INSERT OR IGNORE INTO urls SELECT u.id, u.url, u.title, u.visit_count, u.typed_count, u.last_visit_time, u.hidden, u.favicon_id FROM history.urls u JOIN history.keyword_search_terms kst WHERE u.typed_count = 0 AND u.id = kst.url_id
+[13088:9264:1120/101518.580:INFO:CONSOLE(0)] "This page includes a password or credit card input in a non-secure context. A warning will be added to the URL bar in Chrome 56 (Jan 2017). For more information, see https://goo.gl/zmWq3m.", source: http://101.201.41.228:6800/manage/user/home (0)
+[13088:9264:1120/101604.929:INFO:CONSOLE(34)] "Uncaught TypeError: Cannot read property 'getComputedStyle' of undefined", source: http://101.201.41.228:6800/resources/date/WdatePicker.js (34)
+[13088:9264:1120/101605.102:INFO:CONSOLE(0)] "This page includes a password or credit card input in a non-secure context. A warning will be added to the URL bar in Chrome 56 (Jan 2017). For more information, see https://goo.gl/zmWq3m.", source: http://101.201.41.228:6800/manage/user/home (0)

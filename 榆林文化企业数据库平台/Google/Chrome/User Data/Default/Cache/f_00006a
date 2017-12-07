@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> 榆林市文化产业数据库平台    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    
+    <!-- booratao ace css -->
+    
+    <!-- basic styles -->
+
+	<link href="/resources/manage/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/resources/manage/css/font-awesome.min.css" />
+
+	<!--[if IE 7]>
+		  <link rel="stylesheet" href="/resources/manage/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+
+	<!-- page specific plugin styles -->
+
+	<!-- fonts -->
+
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />  -->
+
+	<!-- ace styles -->
+
+	<link rel="stylesheet" href="/resources/manage/css/ace.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-skins.min.css" />
+
+	<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/resources/manage/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+	
+	<!-- ace settings handler -->
+
+	<script src="/resources/manage/js/ace-extra.min.js"></script>
+		
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+	<!--[if lt IE 9]>
+		<script src="/resources/manage/js/html5shiv.js"></script>
+		<script src="/resources/manage/js/respond.min.js"></script>
+	<![endif]-->	
+	
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+
+	<script type="text/javascript">
+	window.jQuery || document.write("<script src='/resources/manage/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	</script>
+
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+		
+	<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/resources/manage/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	</script>
+		
+	<![endif]-->
+
+	<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/resources/manage/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	</script>
+	
+	<script src="/resources/manage/js/bootstrap.min.js"></script>
+	<script src="/resources/manage/js/typeahead-bs2.min.js"></script>
+
+	<!-- page specific plugin scripts -->
+
+	<!--[if lte IE 8]>
+		  <script src="/resources/manage/js/excanvas.min.js"></script>
+	<![endif]-->
+
+	<script src="/resources/manage/js/jquery.slimscroll.min.js"></script>
+	<script src="/resources/manage/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="/resources/manage/js/jquery.sparkline.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.resize.min.js"></script>
+
+	<!-- ace scripts -->
+
+	<script src="/resources/manage/js/ace-elements.min.js"></script>
+	<script src="/resources/manage/js/ace.min.js"></script>
+ 	
+ 	<!-- jquery ui -->
+ 	<!-- <script src="/resources/manage/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="/resources/manage/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/resources/manage/js/jquery-ui/jquery-ui.js"></script> -->
+	<script type="text/javascript" src="/resources/manage/js/jquery-ui/jquery.blockUI.js"></script>
+ 	<!-- jquery validator -->
+ 	<link rel="stylesheet" href="/resources/manage/css/validator/jquery.validator.css" />
+
+	<script type="text/javascript" src="/resources/manage/js/validator/jquery.validator.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/validator/zh_CN.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/manage.js"></script>
+	<!-- ztree -->
+	<link rel="stylesheet" href="/resources/manage/css/zTree/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/resources/manage/js/zTree/jquery.ztree.all-3.5.min.js"></script>
+ 	
+ 	<!--User Defined -->
+    <link rel="stylesheet" href="/resources/manage/css/common.css" />
+    <script type="text/javascript" src="/resources/manage/js/menu/common.js"></script>
+    
+	<!-- inline scripts related to this page -->
+    
+
+</head>
+<link type="text/css" rel="stylesheet" href="/resources/manage/css/mytab.css"  />
+<script src="/resources/manage/js/Dialog.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#queryData").click(function (){
+		var _form =$("#queryForm");
+		_form.submit();
+	});
+});
+
+$(document).ready(function() {
+	var tabId=$("#tabId").val();
+	$("#tab").find("li").each(function (){
+		var thisId=$(this).prop("id");
+		if(tabId==thisId){
+			$(this).prop("class","current");
+		}else{
+			$(this).prop("class","");
+		}
+	});
+});
+function chagngeTab(obj,qid) {
+	$.blockUI({ message: "数据加载中，请稍候...",css: {
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+	    } }); 
+	window.location.href="/manage/user/selectPlatformList?type="+qid;
+}
+var winAddObj;
+function openAddWin(depId) {
+	var depName=$("#depName").val();
+	var title="用户信息添加"
+	winAddObj = openWindows('/manage/cadreManage/toAdd?depId='+depId+'&isDialog=true',title,'addCadreInfo',850,560,true);
+}
+function closeUpdWin() {
+	winUpdObj.close();
+	resetWin();
+}
+function closeAddWin() {
+	winAddObj.close();
+	resetWin();
+}
+function resetWin() {
+	window.location.href='/manage/user/selectPlatformList?type=2';
+}
+</script>
+<body>
+	<div id="outer">
+		<input type="hidden" name="tabId" id="tabId" value="tab2" />
+		<ul id="tab">
+			<!-- <li id="tab2" class="current" onclick="chagngeTab(this,2);">用户</li> -->
+			
+		</ul>
+		<div id="content">
+			<div class="form-bg" style="border-bottom-width: 0px;">
+				<form action="/manage/user/selectPlatformList" name="queryForm" id="queryForm" method="post">
+					<ul class="fom-ul" style="margin-left: 20px;">
+						<li class="formli">
+							<label>登录名：</label>
+							<input name="userName" id="userName" type="text" style="width:120px;"  value="" class="common-txt" />
+						</li>
+						<!-- 
+						<li class="formli">
+							<label>所属部门：</label>
+							<input name="depName" id="depNameId" type="text" style="width:120px;"   value="" class="common-txt" />
+						</li>
+						<li class="formli">
+								<label>所属辖区：</label>
+								<input name="areaName"  type="text" style="width:120px;"   value="" class="common-txt" />
+						</li>
+						 -->
+						<li class="formli">
+							<label>姓名：</label>
+							<input name="personName" id="personName" type="text" style="width:120px;"   value="" class="common-txt" />
+						</li>
+						<li class="formli">
+							<label>联系电话：</label>
+							<input name="telePhone" id="telePhone" type="text" style="width:120px;"   value="" class="common-txt" />
+						</li>
+						<li class="formli">
+							<label>状态：</label>
+							<select id="dstatus" name="status" class="form-select" style="width:70px;">
+								<option value="">选择</option>
+								<option value="y" >有效</option>
+								<option value="n" >无效</option>
+							</select>
+						</li>
+						<li class="formli">
+							  <input type="hidden" name="type" id="type" value="2" />
+							  <button id="queryBtn"  class="form-btn" style="width:60px;"  type="submit" value="查询" >查询</button>
+						</li>
+						<li class="formli">
+							 <button id="resetBtn" onclick="clearFilter('/manage/user/selectPlatformList?type=2');" class="form-btn" style="width:60px;" type="button" value="重置" >重置</button>
+						</li>
+						<li>
+						<input class="form-btn" onclick="openAddWin('');" style="width:80px;" type="button" value="添加用户" />
+						</li>
+					</ul>
+					<div class="clear"></div>
+					</form>
+			</div>
+			<div class="clear"></div>
+		<form action="/manage/user/selectPlatformList" name="queryForm1" id="queryForm1" method="post">
+			<div class="form-div" style="margin-top: 0px;">
+			<table id="sample-table-1" cellpadding="0" cellspacing="0" class="common-tbl">
+				<tr height="36" class="tr-bg">
+					<td width="38" class="center"><label><input type="checkbox"
+							class="ace" /><span class="lbl"></span></label>
+					</td>
+					<td>编号</td>
+					<td>登录名</td>
+					<td>姓名</td>
+					<td>性别</td>
+					<td>联系电话</td>
+					<!-- <td>部门</td> -->
+					<td>业务角色</td>
+					<td>最后登录时间</td>
+					<td>是否启用</td>
+					<td>是否删除</td>
+					<td>操作</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1" /> <span class="lbl"></span> </label>
+					</td>
+					<td>100</td>
+					<td>admin</td>
+					<td>超级管理员</td>
+					<td>男</td>
+					<td></td>
+					<!-- <td></td> -->
+					<td>超级管理员</td>
+					<td>2017-11-10 15:51:40.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281493159495" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>yulinshi</td>
+					<td>榆林市</td>
+					<td>男</td>
+					<td>15845685412</td>
+					<!-- <td></td> -->
+					<td>榆林市管理员</td>
+					<td>2017-09-28 10:51:16.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281493159495&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281493159495">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281607470607" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>yuyangqu</td>
+					<td>榆阳区</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>默认角色,手机/触摸屏,榆阳区管理员</td>
+					<td>2017-09-27 17:44:25.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281607470607&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281607470607">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281664050265" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>hengshanqu</td>
+					<td>横山区</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>默认角色,横山区管理员</td>
+					<td>2017-09-27 17:36:52.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281664050265&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281664050265">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281687900582" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>shenmuxian</td>
+					<td>神木县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>神木县管理员</td>
+					<td>2017-09-27 17:35:24.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281687900582&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281687900582">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281789619726" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>fuguxian</td>
+					<td>府谷县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>府谷县管理员</td>
+					<td>2017-09-27 17:34:04.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281789619726&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281789619726">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281824759743" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>dingbianxian</td>
+					<td>定边县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>定边县管理员</td>
+					<td>2017-09-27 17:27:29.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281824759743&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281824759743">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281850466868" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>jingbianxian</td>
+					<td>靖边县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>靖边县管理员</td>
+					<td>2017-09-27 17:26:12.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281850466868&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281850466868">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281872240358" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>suidexian</td>
+					<td>绥德县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>绥德县管理员</td>
+					<td>2017-09-27 17:25:09.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281872240358&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281872240358">删除</a>
+						</div>
+					</td>
+				</tr>
+				<tr height="36">
+					<td class="center"><label> <input type="checkbox"
+							class="ace" value="1503281895014291" /> <span class="lbl"></span> </label>
+					</td>
+					<td></td>
+					<td>mizhixian</td>
+					<td>米脂县</td>
+					<td>男</td>
+					<td>12312312312</td>
+					<!-- <td></td> -->
+					<td>绥德县管理员</td>
+					<td>2017-09-27 17:24:02.0</td>
+					<td>
+						有效 
+					</td>
+					<td>
+						正常
+					</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a href="/manage/user/toPlatformEdit?id=1503281895014291&type=2">编辑</a>
+							<label class="common-lbl">|</label>
+							<a onclick="return isdelete();" href="/manage/user/deletePlatformUser?id=1503281895014291">删除</a>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<input name="userName" type="hidden" value=""  />
+			<input name="personName" type="hidden" value=""  />
+			<input name="telePhone" type="hidden" value=""  />
+			<input name="status" type="hidden" value=""  />
+			<input name="type" type="hidden" value="2"  />
+			<input type="hidden" name="pager.offset" id="pagerOffset" value="0"/>
+			<input type="hidden" id="queryFormId" value="#queryForm1" />
+			<input type="hidden" id="pageToUrl" value="/manage/user/selectPlatformList" />
+
+<script type="text/javascript">
+
+function checkNum(obj){
+	var gopage=$(obj).val();
+	 var reg = new RegExp("^[0-9]*$");  
+	 if(!reg.test(gopage)){  
+        $(obj).val("");
+        return false;
+     }  
+     var _size=2;
+     if(gopage>_size){
+      $(obj).val(_size);
+     }
+}
+
+function queryData(opt,obj){
+	var url=$("#pageToUrl").val();
+	var _form=$("#queryFormId").val();
+	var currentPageNumber=Number($("#currentPageNumber").val());//当前页
+	var currentPageCount=Number($("#currentPageCount").val());//每页显示条数
+	var totalPageNum=$("#totalPageNum").val();//总页数
+	
+	var pageOffset=0;
+	if(opt=="1"){//下一页操作
+		pageOffset=currentPageNumber*currentPageCount;
+	}else if(opt=="0"){//上一页
+		pageOffset=0;
+		if(currentPageNumber-1<=1){
+			pageOffset=0;
+		}else{
+			pageOffset=(currentPageNumber-2)*currentPageCount;
+		}
+	}else if(opt=="3"){//尾页
+		pageOffset=(totalPageNum-1)*currentPageCount;
+	}else if(opt=="2"){//首页
+		pageOffset=0;
+	}else if(opt=="4"){//跳转页
+	  var pNo = $("#topageNo").val();
+	  if(pNo=="" || pNo==null || pNo=="undefined"){
+	  	return false;
+	  }
+	  pageOffset=(pNo-1)*10;
+	}else if(opt=="5"){//点击页码
+		var pn=$(obj).attr("pageNo");
+		if(pn-1<=0){
+			pageOffset=0;
+		}else{
+			pageOffset=(pn-1)*currentPageCount;
+		}
+	}
+	
+	$("#pagerOffset").val(pageOffset);
+	
+	$(_form).prop("action",url);
+	$(_form).submit();
+	$.blockUI({ message: "数据查询中，请稍候...",css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+    } });
+}
+
+</script>
+	<!-- 分页标签 1-->
+	<div class="pageDiv">
+					<input type="hidden" name="currentPageNumber" id="currentPageNumber" value="1" />
+					<input type="hidden" name="currentPageCount" id="currentPageCount" value="10" />
+					<input type="hidden" name="totalPageNum" id="totalPageNum" value="2" />
+					<input type="hidden" name="totalNum" id="totalNum" value="15" />
+					<label class="">共15条，当前第:1/2页</label>
+					<a href="#" onclick="queryData('2');" class="pageLink">首页</a>
+                <span class="selectPageLink">1</span>
+	                <a href="#" onClick="queryData('5',this);" pageNo="2" class="pageLink">2</a>
+				<a href="#" onclick="queryData('1');" class="pageLink">下一页</a>
+				<a href="#" onclick="queryData('3');" class="pageLink">尾页</a>
+		   		  转到
+		      	<input id="topageNo" name="topageNo" onkeyup="checkNum(this);" class="page-txt" type="text" value />页
+		      <input type="button" class="page-btn" value="前往" onclick="queryData('4');" />
+		      
+	</div>		</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="/resources/manage/js/jquery.dataTables.min.js"></script>
+<script src="/resources/manage/js/jquery.dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+			jQuery(function($) {
+				var oTable1 = $('#sample-table-2').dataTable( {
+				"aoColumns": [
+			      { "bSortable": false },
+			      null, null,null, null, null,
+				  { "bSortable": false }
+				] } );
+				
+				
+				$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+			
+			
+				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('table')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+			
+					var off2 = $source.offset();
+					var w2 = $source.width();
+			
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+			})
+			
+			function isdelete() {
+				if(!window.confirm("删除后将无法恢复,确定要删除吗?")) {
+					return false;
+				}
+			}
+</script>

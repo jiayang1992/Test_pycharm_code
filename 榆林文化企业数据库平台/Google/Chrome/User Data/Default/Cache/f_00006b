@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> 榆林市文化产业数据库平台    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    
+    <!-- booratao ace css -->
+    
+    <!-- basic styles -->
+
+	<link href="/resources/manage/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/resources/manage/css/font-awesome.min.css" />
+
+	<!--[if IE 7]>
+		  <link rel="stylesheet" href="/resources/manage/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+
+	<!-- page specific plugin styles -->
+
+	<!-- fonts -->
+
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />  -->
+
+	<!-- ace styles -->
+
+	<link rel="stylesheet" href="/resources/manage/css/ace.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-skins.min.css" />
+
+	<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/resources/manage/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+	
+	<!-- ace settings handler -->
+
+	<script src="/resources/manage/js/ace-extra.min.js"></script>
+		
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+	<!--[if lt IE 9]>
+		<script src="/resources/manage/js/html5shiv.js"></script>
+		<script src="/resources/manage/js/respond.min.js"></script>
+	<![endif]-->	
+	
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+
+	<script type="text/javascript">
+	window.jQuery || document.write("<script src='/resources/manage/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	</script>
+
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+		
+	<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/resources/manage/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	</script>
+		
+	<![endif]-->
+
+	<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/resources/manage/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	</script>
+	
+	<script src="/resources/manage/js/bootstrap.min.js"></script>
+	<script src="/resources/manage/js/typeahead-bs2.min.js"></script>
+
+	<!-- page specific plugin scripts -->
+
+	<!--[if lte IE 8]>
+		  <script src="/resources/manage/js/excanvas.min.js"></script>
+	<![endif]-->
+
+	<script src="/resources/manage/js/jquery.slimscroll.min.js"></script>
+	<script src="/resources/manage/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="/resources/manage/js/jquery.sparkline.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.resize.min.js"></script>
+
+	<!-- ace scripts -->
+
+	<script src="/resources/manage/js/ace-elements.min.js"></script>
+	<script src="/resources/manage/js/ace.min.js"></script>
+ 	
+ 	<!-- jquery ui -->
+ 	<!-- <script src="/resources/manage/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="/resources/manage/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/resources/manage/js/jquery-ui/jquery-ui.js"></script> -->
+	<script type="text/javascript" src="/resources/manage/js/jquery-ui/jquery.blockUI.js"></script>
+ 	<!-- jquery validator -->
+ 	<link rel="stylesheet" href="/resources/manage/css/validator/jquery.validator.css" />
+
+	<script type="text/javascript" src="/resources/manage/js/validator/jquery.validator.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/validator/zh_CN.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/manage.js"></script>
+	<!-- ztree -->
+	<link rel="stylesheet" href="/resources/manage/css/zTree/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/resources/manage/js/zTree/jquery.ztree.all-3.5.min.js"></script>
+ 	
+ 	<!--User Defined -->
+    <link rel="stylesheet" href="/resources/manage/css/common.css" />
+    <script type="text/javascript" src="/resources/manage/js/menu/common.js"></script>
+    
+	<!-- inline scripts related to this page -->
+    
+
+</head>
+<script src="/resources/manage/js/common.js"></script>
+<script type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css" />
+<script src="/resources/manage/js/Dialog.js"></script>
+<script type="text/javascript" src="/resources/date/WdatePicker.js"></script>
+<link rel="stylesheet" href="/resources/manage/css/uploadify/uploadify.css"  type="text/css" />
+<script type="text/javascript" src="/resources/manage/js/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	 var CursorObj = $('#cursorId');
+	 $(CursorObj).hide();
+}) 
+
+var winAddObj;
+
+function closeWin() {
+	winAddObj.close();
+	resetWin();
+}
+var count=0;
+function saveDepMember() {
+  count=0
+  	setEduInfo();
+  	setWorkEx();
+  	setFamilyVals();
+	$("#addDepMember").on("valid.form", function(e, form) {
+		count=count+1;
+		if (count==1) { //防止重复提交
+			$.ajax({
+		         cache: false,
+		         type: "post",
+		         url:"/manage/cadreManage/save",
+		         async: false,
+		         data:$("#addDepMember").serialize(),
+		         error: function() {
+		             alert("保存信息出错！");
+		         },
+		         success: function(data) {
+		        	 var obj = eval('(' + data + ')');
+		        	 $("#uuid").val(obj.uuid);
+		        	 alert("信息保存成功!");
+		        	// window.location.href="/manage/cadreManage/toEdit?uuid="+obj.uuid;
+		        	window.parent.closeAddWin();
+		         }
+				});
+			}
+		});
+	}
+function deleteEduInfo(uuid,obj) {
+	try{
+		if(confirm("确定删除此条教育经历吗?")){
+			$.ajax({
+			  type: 'POST',
+			  url: "/manage/cadreManage/deleteEduInfoById",
+			  data:{uuid:uuid},
+			  async:false,
+			  success: function(data){
+				 alert("删除成功！");
+				 $(obj).parent().parent().parent().parent().remove();				
+			  },
+			  dataType: "text",
+			  error:function(){
+				  alert("删除失败，请联系管理员。");
+			  }
+			});
+		}
+	} catch(e) {
+		console.log("error="+e);
+	}
+	return false;
+ }
+function deleteWorkEx(uuid,obj) {
+	try{
+		if(confirm("确定删除此条工作履历吗?")){
+			$.ajax({
+			  type: 'POST',
+			  url: "/manage/cadreManage/deleteWorkInfoById",
+			  data:{uuid:uuid},
+			  async:false,
+			  success: function(data){
+				 alert("删除成功！");
+				 $(obj).parent().parent().parent().parent().remove();				
+			  },
+			  dataType: "text",
+			  error:function(){
+				  alert("删除失败，请联系管理员。");
+			  }
+			});
+		}
+	} catch(e) {
+		console.log("error="+e);
+	}
+	return false;
+ }
+
+function deleteFailyUser(uuid,obj) {
+	try{
+		if(confirm("确定删除此条工作履历吗?")){
+			$.ajax({
+			  type: 'POST',
+			  url: "/manage/cadreManage/deleteFailyUserById",
+			  data:{uuid:uuid},
+			  async:false,
+			  success: function(data){
+				 alert("删除成功！");
+				 $(obj).parent().parent().parent().remove();				
+			  },
+			  dataType: "text",
+			  error:function(){
+				  alert("删除失败，请联系管理员。");
+			  }
+			});
+		}
+	} catch(e) {
+		console.log("error="+e);
+	}
+	return false;
+ }
+
+function removeWorkExp(item_index) {
+	$("#user_tr"+item_index).remove();
+	$("#hiddenDivId"+item_index).remove();
+}
+function setEduInfo(){
+	var eduUuids=new Array();
+  	var finishSchools=new Array();
+  	var startDates =new Array();
+  	var endDates=new Array();
+  	var majorCourses=new Array();
+  	var educationCodes=new Array();
+  	var degreeCodes=new Array();
+  	var eduRemarks=new Array();
+  	
+  	$("input[name='eduuuid']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			eduUuids.push('0');
+  		}else{
+  			eduUuids.push($(this).val());
+  		}
+  	});
+  	$("#eduUuids").val(eduUuids.toString());
+  	
+  	$("input[name='finishSchool']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			finishSchools.push('noVal');
+  		}else{
+  			finishSchools.push($(this).val());
+  		}
+  	});
+  	$("#finishSchools").val(finishSchools.toString());
+  	
+  	$("input[name='startDate']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			startDates.push('noVal');
+  		}else{
+  			startDates.push($(this).val());
+  		}
+  	});
+  	$("#startDates").val(startDates.toString());
+  	
+  	$("input[name='endDate']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			endDates.push('noVal');
+  		}else{
+  			endDates.push($(this).val());
+  		}
+  	});
+  	$("#endDates").val(endDates.toString());
+  	
+  	$("input[name='majorCourse']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			majorCourses.push('noVal');
+  		}else{
+  			majorCourses.push($(this).val());
+  		}
+  	});
+  	$("#majorCourses").val(majorCourses.toString());
+  	
+  	$("select[name='educationCode']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			educationCodes.push('noVal');
+  		}else{
+  			educationCodes.push($(this).val());
+  		}
+  	});
+  	$("#educationCodes").val(educationCodes.toString());
+  	
+	$("select[name='degreeCode']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			degreeCodes.push('noVal');
+  		}else{
+  			degreeCodes.push($(this).val());
+  		}
+  	});
+  	$("#degreeCodes").val(degreeCodes.toString());
+  	
+  	$("textarea[name='eduRemark']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			eduRemarks.push('noVal');
+  		}else{
+  			eduRemarks.push($(this).val());
+  		}
+  	});
+  	$("#eduRemarks").val(eduRemarks.toString());
+  	
+}
+
+function setWorkEx(){
+	var workUuids=new Array();
+  	var workCompanys=new Array();
+  	var startWorkDates =new Array();
+  	var endWorkDates=new Array();
+  	var dutys=new Array();
+  	var workIntroduces=new Array();
+  	var workRemarks=new Array();
+  	
+  	$("input[name='workuuid']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			workUuids.push('0');
+  		}else{
+  			workUuids.push($(this).val());
+  		}
+  	});
+  	$("#workUuids").val(workUuids.toString());
+  	
+  	$("input[name='workCompany']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			workCompanys.push('noVal');
+  		}else{
+  			workCompanys.push($(this).val());
+  		}
+  	});
+  	$("#workCompanys").val(workCompanys.toString());
+  	
+  	$("input[name='startWorkDate']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			startWorkDates.push('noVal');
+  		}else{
+  			startWorkDates.push($(this).val());
+  		}
+  	});
+  	$("#startWorkDates").val(startWorkDates.toString());
+  	
+  	$("input[name='endWorkDate']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			endWorkDates.push('noVal');
+  		}else{
+  			endWorkDates.push($(this).val());
+  		}
+  	});
+  	$("#endWorkDates").val(endWorkDates.toString());
+  	
+	$("input[name='duty']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			dutys.push('noVal');
+  		}else{
+  			dutys.push($(this).val());
+  		}
+  	});
+  	$("#dutys").val(dutys.toString());
+  	
+  	$("textarea[name='workIntroduce']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			workIntroduces.push('noVal');
+  		}else{
+  			workIntroduces.push($(this).val());
+  		}
+  	});
+  	$("#workIntroduces").val(workIntroduces.toString());
+  	
+  	$("textarea[name='workRemark']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			workRemarks.push('noVal');
+  		}else{
+  			workRemarks.push($(this).val());
+  		}
+  	});
+  	$("#workRemarks").val(workRemarks.toString());
+	
+}
+
+function setFamilyVals(){
+	var fmlIds=new Array();
+  	var names=new Array();
+  	var sexs =new Array();
+  	var rels=new Array();
+  	var phones=new Array();
+  	$("input[name='copyfmlUuid']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			fmlIds.push('0');
+  		}else{
+  			fmlIds.push($(this).val());
+  		}
+  	});
+  	$("#fmlUuid").val(fmlIds.toString());
+  	
+  	$("input[name='copymemberName']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			names.push('noVal');
+  		}else{
+  			names.push($(this).val());
+  		}
+  	});
+  	$("#memberName").val(names.toString());
+  	
+  	$("select[name='copyfmlSex']").each(function (){
+  		sexs.push($(this).val());
+  	});
+  	$("#fmlSex").val(sexs.toString());
+  	
+  	$("input[name='copyrelation']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			rels.push('noVal');
+  		}else{
+  			rels.push($(this).val());
+  		}
+  	});
+  	$("#relation").val(rels.toString());
+  	
+  	$("input[name='copyfmlTelPhone']").each(function (){
+  		if(null==$(this).val() || ''==$(this).val() || $(this).val()==undefined){
+  			phones.push('noVal');
+  		}else{
+  			phones.push($(this).val());
+  		}
+  	});
+  	$("#fmlTelPhone").val(phones.toString());
+}
+
+
+function onCheck() {
+	 $("#subId").click();
+}
+
+function addEducation(){
+	var len=$("#switch-sm2").find("table").length;
+	var index=len+1;
+	
+	var select0="";
+	$("#educationCode0 option").each(function () {
+		var txt = $(this).text(); 
+        var val = $(this).val(); 
+        select0+="<option value='"+val+"'>"+txt+"</option>";
+	});
+	
+	var select1=0;
+	$("#degreeCode0 option").each(function () {
+		var txt = $(this).text(); 
+        var val = $(this).val(); 
+        select1+="<option value='"+val+"'>"+txt+"</option>";
+	});
+	var html="<div class='clear' style='margin-bottom: 10px;'></div>";
+	html+="<table cellpadding='0' cellspacing='0' class='obj-tbl' id='eduTb"+index+"' style='width: 100%;'>";
+	html+="<tr style='display: none;'><td colspan='4'><input type='hidden' name='eduuuid' value=''/></td></tr>";
+		html+="<tr  height='36'>";
+			html+="<td class='obj-left'><div style='float:left'><a href='#' onclick=\"removeEdu(this);\">删除</a></div>毕业院校：</td>";
+			html+="<td class='obj-right'>";
+			html+="<input type='text' value='' name='finishSchool'  id='finishSchool"+index+"' class='all-txt' data-rule='名称;finishSchool"+index+";length[2~20]'/>";
+			html+="</td>";
+			html+="<td class='obj-left'>专业：</td>";
+			html+="<td class='obj-right'>";
+			html+="<input type='text' value='' name='majorCourse'  id='majorCourse' class='all-txt' />";
+			html+="</td>";
+		html+="</tr>";
+		html+="<tr  height='36'>";
+			html+="<td class='obj-left'>开始学习时间：</td>";
+			html+="<td class='obj-right'>";
+			html+="<input type='text' class='all-txt' id='startDate"+index+"' name='startDate' value='' style='width: 80px;' onclick=\"WdatePicker({el:'startDate"+index+"',dateFmt:'yyyy-MM-dd'})\" readonly='readonly'/> ";
+			html+="<img onclick=\"WdatePicker({el:'startDate"+index+"',dateFmt:'yyyy-MM-dd'})\" src='/resources/date/skin/datePicker.gif' width='16' height='22'  />";
+			html+="</td>";
+			html+="<td class='obj-left'>学习时间截至：</td>";
+			html+="<td class='obj-right'>";
+			html+="<input type='text' class='all-txt' id='endDate"+index+"' name='endDate' value='' style='width: 80px;'  onclick=\"WdatePicker({el:'endDate"+index+"',dateFmt:'yyyy-MM-dd'})\" readonly='readonly'/> ";
+			html+="<img onclick=\"WdatePicker({el:'endDate"+index+"',dateFmt:'yyyy-MM-dd'})\" src='/resources/date/skin/datePicker.gif' width='16' height='22'  />";
+			html+="</td>";
+		html+="</tr>";
+		html+="<tr height='36'>";
+			html+="<td class='obj-left'>学历：</td>";
+			html+="<td class='obj-right'>";
+			html+="<select name='educationCode' id='educationCode' class='input-medium'>";
+			html+=select0;
+			html+="</select>";
+			html+="</td>";
+			html+="<td class='obj-left'>获得学位：</td>";
+			html+="<td class='obj-right'>";
+			html+="<select name='degreeCode' id='degreeCode' class='input-medium'>";
+			html+=select1;
+			html+="</select>";
+			html+="</td>";
+		html+="<tr  height='36'>";
+			html+="<td class='obj-left'>备注：</td>";
+			html+="<td class='obj-right' colspan='3'>";
+			html+="<textarea class='all-txa' style='width:92%;' name='eduRemark' id='eduRemark'></textarea>";
+			html+="</td>";
+		html+="</tr>";
+	html+="</table>";
+	$("#switch-sm2").append(html);
+}
+
+function removeEdu(obj){
+	//$(obj).parent().parent().parent().prev().remove();
+	$(obj).parent().parent().parent().parent().parent().prev().remove();
+	$(obj).parent().parent().parent().parent().parent().remove()
+}
+
+function addMember(){
+	var len =$("#memberTbl tr").length;
+	var index=len+1;
+	var htmlStr="<tr height='36' id='tr"+index+"'>";
+		 htmlStr+="<td char='obj-left'>";
+		 htmlStr+="<a href='#' onclick='reomveMember(this);'>移除</a>";
+		 htmlStr+="</td>";
+		 htmlStr+="<td style='display: none;'><input type='hidden' name='copyfmlUuid' value=''/></td>";
+		 htmlStr+="<td class='obj-left' style='width: 21%;'>";
+			 htmlStr+="成员姓名：<input type='text' value='' name='copymemberName' value='' id='memberName"+index+"' class='all-txt' style='width: 60px;' data-rule='名称;memberName"+index+";length[2~20]'/>";
+		 htmlStr+="</td>";
+		 htmlStr+="<td class='obj-left' style='width: 15%;'>";
+			 htmlStr+="性别：<select name='copyfmlSex' id='sex' class='input-medium'><option value='0'>女</option><option value='1'>男</option></select>";
+		 htmlStr+="</td>";
+		 htmlStr+="<td class='obj-left' style='width: 25%;'>";
+			 htmlStr+="与本人关系：<input type='text' style='width: 60px;' class='all-txt' id='relation"+index+"' name='copyrelation' value='' />";
+		 htmlStr+="</td>";
+		 htmlStr+="<td class='obj-left' style='width: 27%;'>";
+			 htmlStr+="联系电话：<input type='text' style='width: 90px;' class='all-txt' id='telPhone"+index+"' name='copyfmlTelPhone' value=''/>";
+		 htmlStr+="</td>";
+	 htmlStr+="</tr>";
+	
+	$("#memberTbl").append(htmlStr);
+}
+function reomveMember(obj){
+	$(obj).parent().parent().remove();
+}
+
+function removeWorkEx(obj){
+	$(obj).parent().parent().parent().parent().parent().prev().remove();
+	$(obj).parent().parent().parent().parent().parent().remove()
+}
+function addWorkEx(){
+	var len=$("#switch-sm3").find("table").length;
+	var index=len+1;
+	var html="<div class='clear' style='margin-bottom: 10px;'></div>";
+	html+="<table cellpadding='0' cellspacing='0' class='obj-tbl' id='workExTb"+index+"' style='width: 100%;'>";
+		html+="<tr style='display: none;'><td colspan='4'><input type='hidden' name='workuuid' value=''/></td></tr>";
+		html+="<tr  height='36'>";
+			html+="<td class='obj-left'><div style='float:left'><a href='#' onclick=\"removeWorkEx(this);\">删除</a></div>任职单位：</td>";
+			html+="<td class='obj-right'>";
+				html+="<input type='text' value='' name='workCompany'  id='workCompany"+index+"' class='all-txt' data-rule='名称;workCompany"+index+";length[2~20]'/>";
+			html+="</td>";
+			html+="<td class='obj-left'>职务：</td>";
+			html+="<td class='obj-right'>";
+				html+="<input type='text' value='' name='duty'  id='duty' class='all-txt' />";
+			html+="</td>";
+		html+="</tr>";
+	html+="<tr  height='36'>";
+		html+="<td class='obj-left'>开始工作时间：</td>";
+		html+="<td class='obj-right'>";
+			html+="<input type='text' class='all-txt' id='startWorkDate"+index+"' name='startWorkDate' value='' style='width: 80px;'  onclick=\"WdatePicker({el:'startWorkDate"+index+"',dateFmt:'yyyy-MM-dd'})\" readonly='readonly'/> ";
+			html+="<img onclick=\"WdatePicker({el:'startWorkDate"+index+"',dateFmt:'yyyy-MM-dd'})\" src='/resources/date/skin/datePicker.gif' width='16' height='22'  />";
+		html+="</td>";
+		html+="<td class='obj-left'>截至工作时间：</td>";
+		html+="<td class='obj-right'>";
+			html+="<input type='text' class='all-txt' id='endWorkDate"+index+"' name='endWorkDate' value='' style='width: 80px;'  onclick=\"WdatePicker({el:'endWorkDate"+index+"',dateFmt:'yyyy-MM-dd'})\" readonly='readonly'/> ";
+			html+="<img onclick=\"WdatePicker({el:'endWorkDate"+index+"',dateFmt:'yyyy-MM-dd'})\" src='/resources/date/skin/datePicker.gif' width='16' height='22'  />";
+		html+="</td>";
+	html+="</tr>";
+	html+="<tr  height='36'>";
+		html+="<td class='obj-left'>主要工作描述：</td>";
+		html+="<td class='obj-right'>";
+			html+="<textarea class='all-txa' style='width:92%;' name='workIntroduce' id='workIntroduce'></textarea>";
+		html+="</td>";
+		html+="<td class='obj-left'>备注：</td>";
+		html+="<td class='obj-right'>";
+		html+="<textarea class='all-txa' style='width:92%;' name='workRemark' id='workRemark'></textarea>";
+		html+="</td>";
+	html+="</tr>";
+	html+="</table>";
+	
+	$("#switch-sm3").append(html);
+}
+
+
+
+var leaderIndex = 0;
+$(document).ready(function() {
+	var imgIndex=0;
+	var fileIndex=0;
+	//附件上传
+	var url = '/uploadify.do?fileType=image&fileName=headerImg';
+	$("#fileUpload").uploadify({
+       'swf'       	 : '/resources/manage/js/uploadify/uploadify.swf',
+       'uploader'       : url,//后台处理的请求
+       'queueID'        : 'fileQueue',//与下面的id对应
+       'fileTypeDesc'   : 'rar文件或zip文件或者文档或者视频',
+       'fileTypeExts' 	 : '*.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF;*.jpeg;', //控制可上传文件的扩展名，启用本项时需同时声明fileDesc
+		'method':'get',
+       'multi'          : true,
+       'buttonText'     : '添加附件',
+       'queueSizeLimit' : 1,  //同时上传文件的个数 
+       'fileSizeLimit' : '10MB', //设置单个文件大小限制   
+        'onFallback':function(){    
+            alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");    
+        }, 
+       onUploadSuccess:function(file, data, response){
+		   data = $.parseJSON(data);
+		   if(data.error == '1') {
+			   //alert("上传失败：\n失败原因:" + data.msg);
+		   } else {
+			   //var uuid= UUID.prototype.createUUID();
+			   $("#fileIndex").val(fileIndex); 
+			   $("#nullInput").remove();
+			   var filePathId=$("#filePathId").val();
+			   if(filePathId!=undefined && filePathId!='' && filePathId!=null){
+				   $("#filePathId").val(data.filePath);
+				   $("#fileNameId").val(data.name);
+				   $("#imgId").attr("src",""+data.filePath);
+			   }else{
+				   var html = '<div id="attach">'
+				   html+='<div><img id="imgId" src="'+data.filePath+'" style="height:110px;width:90px;" /><a href="javascript:delPhoto()">[删除]</a></div>';
+				   html+='<input type="hidden" id="filePathId" name="headerImgPath" value="'+data.filePath+'" /><input type="hidden" id="fileNameId" name="fileName" value="'+data.name+'" />';
+				   html+='</div>';
+				   $(html).appendTo($(".attachmentSet"));
+				   //$("#fileMsg").html("上传完成");
+				    fileIndex++;
+			   }
+		   }
+       },
+       onUploadError:function(file, errorCode, errorMsg) {
+    	   $("#fileMsg").html("上传失败");
+    	   alert("上传失败,data="+data+",file="+file+",response="+response);  
+    	   $("#filePathId").val('');
+   			$("#fileNameId").html('');
+   			$("#attach").remove();
+       },
+       onUploadStart:function(file, errorCode, errorMsg){
+     	  //$("#fileMsg").html("开始上传中...");
+        },
+        onUploadProgress:function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal){
+        	 var pro =bytesUploaded /bytesTotal *100;
+      	   pro=pro.toFixed(2)
+      	   //$('#fileMsg').html("已上传"+bytesUploaded + ' bytes,进度：'+pro+'%,总共' + bytesTotal + ' bytes.');
+         }
+ 	});
+	
+	
+});
+function delPhoto(){
+	if(confirm('你确定永久删除此图片吗？')){
+		var path = $("#imgPath").val();
+		var cadPhId=$("#cadPhId").val();
+		$("#filePathId").val('');
+		$("#fileNameId").html('');
+		
+		$("#attach").remove();
+	}
+};
+</script>
+<div id="dialog-bg" class="dialog-bg" style="width:820px;top: 0px;">
+	<div class="fl-l dialog-left" style="width: 120px;">
+			<ul class="dialog-menu-ul">
+				<li id="switch-big1" class="switch-big-item menu-unli">用户基本信息</li>
+				<!-- <li id="switch-big2" class="switch-big-item menu-li">教育经历</li>
+				<li id="switch-big3" class="switch-big-item menu-li">工作履历</li>
+				<li id="switch-big4" class="switch-big-item menu-li">家庭成员</li> -->
+			</ul>
+	</div>
+	<div class="fl-r dialog-right" style="width: 699px;height: 670px;">
+		<form action="/manage/cadreManage/save" id="addDepMember" method="post" isCheck="false">
+			<input type="hidden" name="depId" value=""/>
+			<input type="hidden" id="uuid" name="uuid" value=""/>
+			<div class="dialog-page">
+				<div class="fl-l">
+					<ul class="dialog-ul">
+						<li><button class="dialog-btn" onclick="saveDepMember();">保存</button>
+							<button id="subId" style="display: none;" ></button>
+						</li>
+						<li>
+						<input class="dialog-btn" type="button" value="取消" id="closeId" onclick="window.parent.closeAddWin();"/>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+	<div id="switch-sm1" class="switch-sm-item dialog-margin">
+				<table cellpadding="0" cellspacing="0" class="obj-tbl" style="width: 100%;">
+					<tr  height="36">
+						<td class="obj-left">用户姓名：</td>
+						<td class="obj-right">
+						   <input type="text" value="" name="personName"  id="personName" class="all-txt" data-rule="名称;required;personName;length[2~20]"/>
+						</td>
+						<td class="obj-left" rowspan="4">头像照片：</td>
+						<td class="obj-right" rowspan="4">
+		                   <div style="height:10px;font-size:20px;"></div>
+							<input type="hidden" name="path" value="" id="nullInput"/>
+							<input id="fileUpload" name="fileUpload" value="上传头像" class="btn btn-warning" type="button"/><label style="color:red;" id="fileMsg"></label>
+							<div class="attachmentSet">
+							</div>
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">性别：</td>
+						<td class="obj-right">
+		                    <select name="sex" id="sex" class="input-medium">
+								<option value="">--请选择--</option>
+								<option value="0" >女</option>
+								<option value="1" >男</option>
+							</select>
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">身份证号：</td>
+						<td class="obj-right">
+						   <input type="text" value="" name="idCard"  id="idCard" data-rule="required;length[18];" class="all-txt" />
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">联系电话：</td>
+						<td class="obj-right">
+							<input type="text" value="" name="telPhone"  id="telPhone" data-rule="required;length[11];" class="all-txt" />
+						</td>
+					</tr>
+					<!-- <tr  height="36">
+						<td class="obj-left">政治面貌：</td>
+						<td class="obj-right">
+		                  	<select name="politicalStatus" id="politicalStatus" class="input-medium">
+							</select>
+						</td>
+					</tr>
+					<tr height="36">
+						<td class="obj-left">学历：</td>
+						<td class="obj-right">
+							<select name="education" id="education" class="input-medium">
+							</select>
+						</td>
+						<td class="obj-left">职务级别：</td>
+						<td class="obj-right">
+							<select name="dutyLevel" id="dutyLevel" class="input-medium">
+							</select>
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">毕业院校：</td>
+						<td class="obj-right">
+						   <input type="text" value="" name="bySchool"  id="bySchool"  class="all-txt" />
+						</td>
+						<td class="obj-left">出生日期：</td>
+						<td class="obj-right">
+						    <input type="text" class="all-txt" id="birthday" name="birthday" value="" style="width: 80px;"  onclick="WdatePicker({el:'birthday',dateFmt:'yyyy-MM-dd'})" readonly="readonly"/> 
+							<img onclick="WdatePicker({el:'birthday',dateFmt:'yyyy-MM-dd'})" src="/resources/date/skin/datePicker.gif" width="16" height="22"  /> 
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">岗位：</td>
+						<td class="obj-right" colspan="3">
+						   <input type="text" value="" name="job"  id="job" class="all-txt" />
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">岗位职责描述：</td>
+						<td class="obj-right">
+						<textarea class="all-txa" style="width:92%;" name="jobIntroduce" id="jobIntroduce"></textarea>
+						</td>
+						<td class="obj-left">籍贯：</td>
+						<td class="obj-right">
+							<textarea class="all-txa" style="width:92%;" name="nativePlace" id="nativePlace"></textarea>
+						</td>
+					</tr> -->
+					<tr  height="36">
+						<td class="obj-left">籍贯：</td>
+						<td class="obj-right">
+						<textarea class="all-txa" style="width:92%;" name="faimlyAddress" id="faimlyAddress"></textarea>
+						</td>
+						<td class="obj-left">家庭住址：</td>
+						<td class="obj-right">
+							<textarea class="all-txa" style="width:92%;" name="remark" id="remark"></textarea>
+						</td>
+					</tr>
+				</table>	
+		</div>
+		<!-- <div id="switch-sm2" class="switch-sm-item dialog-margin all-hidden">
+			<input class="dialog-btn" type="button" isSubmit="false" value="添加经历" onclick="addEducation();"/>
+					<div class="clear" style="margin-bottom: 10px;"></div>
+					<table cellpadding="0" cellspacing="0" class="obj-tbl" id="eduTb0" style="width: 100%;">
+						  	<tr style="display: none;">
+								<td colspan="4"><input type="hidden" name="eduuuid" value=""/></td>
+							</tr>
+							<tr  height="36">
+								<td class="obj-left">毕业院校：</td>
+								<td class="obj-right">
+								   <input type="text" value="" name="finishSchool"  id="finishSchool" class="all-txt" data-rule="名称;finishSchool;length[2~20]"/>
+								</td>
+								<td class="obj-left">专业：</td>
+								<td class="obj-right">
+									<input type="text" value="" name="majorCourse"  id="majorCourse" class="all-txt" />
+								</td>
+							</tr>
+							<tr  height="36">
+								<td class="obj-left">开始学习时间：</td>
+								<td class="obj-right">
+									<input type="text" class="all-txt" id="startDate" name="startDate" value="" style="width: 80px;" onclick="WdatePicker({el:'startDate',dateFmt:'yyyy-MM-dd'})" readonly="readonly"/> 
+									<img onclick="WdatePicker({el:'startDate',dateFmt:'yyyy-MM-dd'})" src="/resources/date/skin/datePicker.gif" width="16" height="22"  />
+								</td>
+								<td class="obj-left">学习时间截至：</td>
+								<td class="obj-right">
+								   <input type="text" class="all-txt" id="endDate" name="endDate" value="" style="width: 80px;"  onclick="WdatePicker({el:'endDate',dateFmt:'yyyy-MM-dd'})" readonly="readonly"/> 
+								   <img onclick="WdatePicker({el:'endDate',dateFmt:'yyyy-MM-dd'})" src="/resources/date/skin/datePicker.gif" width="16" height="22"  />
+								</td>
+							</tr>
+							<tr height="36">
+								<td class="obj-left">学历：</td>
+								<td class="obj-right">
+				                  	<select name="educationCode" id="educationCode0" class="input-medium">
+									</select>
+								</td>
+								<td class="obj-left">获得学位：</td>
+								<td class="obj-right">
+									<select name="degreeCode" id="degreeCode0" class="input-medium">
+									</select>
+								</td>
+							</tr>
+							<tr  height="36">
+								<td class="obj-left">备注：</td>
+								<td class="obj-right" colspan="3">
+								<textarea class="all-txa" style="width:92%;" name="eduRemark" id="eduRemark"></textarea>
+								</td>
+							</tr>
+						</table>
+		</div>
+		<div id="switch-sm3" class="switch-sm-item dialog-margin all-hidden">
+			<input class="dialog-btn" type="button" isSubmit="false" value="添加经历" id="addworkex" onclick="addWorkEx();"/>
+				<div class="clear" style="margin-bottom: 10px;"></div>
+				<table cellpadding="0" cellspacing="0" class="obj-tbl" style="width: 100%;">
+					<tr style="display: none;">
+						<td colspan="4"><input type="hidden" name="workuuid" value=""/></td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">任职单位：</td>
+						<td class="obj-right">
+						   <input type="text" value="" name="workCompany"  id="workCompany" class="all-txt" data-rule="名称;workCompany;length[2~20]"/>
+						</td>
+						<td class="obj-left">职务：</td>
+						<td class="obj-right">
+							<input type="text" value="" name="duty"  id="duty" class="all-txt" />
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">开始工作时间：</td>
+						<td class="obj-right">
+							<input type="text" class="all-txt" id="startWorkDate" name="startWorkDate" value="" style="width: 80px;"  onclick="WdatePicker({el:'startWorkDate',dateFmt:'yyyy-MM-dd'})" readonly="readonly"/> 
+							<img onclick="WdatePicker({el:'startWorkDate',dateFmt:'yyyy-MM-dd'})" src="/resources/date/skin/datePicker.gif" width="16" height="22"  />
+						</td>
+						<td class="obj-left">截至工作时间：</td>
+						<td class="obj-right">
+						   <input type="text" class="all-txt" id="endWorkDate" name="endWorkDate" value="" style="width: 80px;"  onclick="WdatePicker({el:'endWorkDate',dateFmt:'yyyy-MM-dd'})" readonly="readonly"/> 
+						   <img onclick="WdatePicker({el:'endWorkDate',dateFmt:'yyyy-MM-dd'})" src="/resources/date/skin/datePicker.gif" width="16" height="22"  />
+						</td>
+					</tr>
+					<tr  height="36">
+						<td class="obj-left">主要工作描述：</td>
+						<td class="obj-right">
+						<textarea class="all-txa" style="width:92%;" name="workIntroduce" id="workIntroduce"></textarea>
+						</td>
+						<td class="obj-left">备注：</td>
+						<td class="obj-right">
+						<textarea class="all-txa" style="width:92%;" name="workRemark" id="workRemark"></textarea>
+						</td>
+					</tr>
+				</table>
+			
+		</div>
+		<div id="switch-sm4" class="switch-sm-item dialog-margin all-hidden">
+			<input class="dialog-btn" type="button" isSubmit="false" value="添加成员" onclick="addMember();"/>
+			<div class="clear" style="margin-bottom: 10px;"></div>
+			<table cellpadding="0" cellspacing="0" id="memberTbl" class="obj-tbl" style="width: 100%;">
+					<tr height="36" id="tr0">
+						<td char="obj-left"></td>
+						<td style="display: none;"><input type="hidden" name="copyfmlUuid" value=""/></td>
+						<td class="obj-left" style="width: 21%;">成员姓名：<input type="text" value="" name="copymemberName"  id="copymemberName" class="all-txt" style="width: 60px;" data-rule="名称;copymemberName;length[2~20]"/></td>
+						<td class="obj-left" style="width: 15%;">
+						性别：<select name="copyfmlSex" id="copyfmlSex" class="input-medium">
+								<option value="0">女</option>
+								<option value="1">男</option>
+							</select>
+						</td>
+						<td class="obj-left" style="width: 25%;">
+						与本人关系：<input type="text" style="width: 60px;" class="all-txt" id="copyrelation" name="copyrelation" />
+						</td>
+						<td class="obj-left" style="width: 27%;">
+						联系电话：<input type="text" style="width: 90px;" class="all-txt" id="copyfmlTelPhone" name="copyfmlTelPhone"/>
+						</td>
+					</tr>
+			</table>	
+		</div>
+		<div>
+			家庭成员
+			<input type="hidden" id="fmlUuid" name="fmlUuid" value="" />
+			<input type="hidden" id="memberName" name="memberName" value="" />
+			<input type="hidden" id="fmlSex" name="fmlSex" value="" />
+			<input type="hidden" id="relation" name="relation" value="" />
+			<input type="hidden" id="fmlTelPhone" name="fmlTelPhone" value="" />
+			教育经历
+			<input type="hidden" id="eduUuids" name="eduUuids" value="" />
+			<input type="hidden" id="finishSchools" name="finishSchools" value="" />
+			<input type="hidden" id="startDates" name="startDates" value="" />
+			<input type="hidden" id="endDates" name="endDates" value="" />
+			<input type="hidden" id="majorCourses" name="majorCourses" value="" />
+			<input type="hidden" id="educationCodes" name="educationCodes" value="" />
+			<input type="hidden" id="degreeCodes" name="degreeCodes" value="" />
+			<input type="hidden" id="eduRemarks" name="eduRemarks" value="" />
+			工作经历
+			<input type="hidden" id="workUuids" name="workUuids" value="" />
+			<input type="hidden" id="workCompanys" name="workCompanys" value="" />
+			<input type="hidden" id="startWorkDates" name="startWorkDates" value="" />
+			<input type="hidden" id="endWorkDates" name="endWorkDates" value="" />
+			<input type="hidden" id="dutys" name="dutys" value="" />
+			<input type="hidden" id="workIntroduces" name="workIntroduces" value="" />
+			<input type="hidden" id="workRemarks" name="workRemarks" value="" />
+		</div> -->
+		</form>
+	</div>
+	</div>
+	<div class="clear"></div>
+</html>

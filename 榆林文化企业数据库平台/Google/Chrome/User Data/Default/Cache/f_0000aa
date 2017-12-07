@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> 榆林市文化产业数据库平台    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    
+    <!-- booratao ace css -->
+    
+    <!-- basic styles -->
+
+	<link href="/resources/manage/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/resources/manage/css/font-awesome.min.css" />
+
+	<!--[if IE 7]>
+		  <link rel="stylesheet" href="/resources/manage/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+
+	<!-- page specific plugin styles -->
+
+	<!-- fonts -->
+
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />  -->
+
+	<!-- ace styles -->
+
+	<link rel="stylesheet" href="/resources/manage/css/ace.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="/resources/manage/css/ace-skins.min.css" />
+
+	<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/resources/manage/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+	
+	<!-- ace settings handler -->
+
+	<script src="/resources/manage/js/ace-extra.min.js"></script>
+		
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+	<!--[if lt IE 9]>
+		<script src="/resources/manage/js/html5shiv.js"></script>
+		<script src="/resources/manage/js/respond.min.js"></script>
+	<![endif]-->	
+	
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+
+	<script type="text/javascript">
+	window.jQuery || document.write("<script src='/resources/manage/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+	</script>
+
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+		
+	<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/resources/manage/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+	</script>
+		
+	<![endif]-->
+
+	<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/resources/manage/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	</script>
+	
+	<script src="/resources/manage/js/bootstrap.min.js"></script>
+	<script src="/resources/manage/js/typeahead-bs2.min.js"></script>
+
+	<!-- page specific plugin scripts -->
+
+	<!--[if lte IE 8]>
+		  <script src="/resources/manage/js/excanvas.min.js"></script>
+	<![endif]-->
+
+	<script src="/resources/manage/js/jquery.slimscroll.min.js"></script>
+	<script src="/resources/manage/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="/resources/manage/js/jquery.sparkline.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="/resources/manage/js/flot/jquery.flot.resize.min.js"></script>
+
+	<!-- ace scripts -->
+
+	<script src="/resources/manage/js/ace-elements.min.js"></script>
+	<script src="/resources/manage/js/ace.min.js"></script>
+ 	
+ 	<!-- jquery ui -->
+ 	<!-- <script src="/resources/manage/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="/resources/manage/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="/resources/manage/js/jquery-ui/jquery-ui.js"></script> -->
+	<script type="text/javascript" src="/resources/manage/js/jquery-ui/jquery.blockUI.js"></script>
+ 	<!-- jquery validator -->
+ 	<link rel="stylesheet" href="/resources/manage/css/validator/jquery.validator.css" />
+
+	<script type="text/javascript" src="/resources/manage/js/validator/jquery.validator.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/validator/zh_CN.js"></script>
+	<script type="text/javascript" src="/resources/manage/js/manage.js"></script>
+	<!-- ztree -->
+	<link rel="stylesheet" href="/resources/manage/css/zTree/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/resources/manage/js/zTree/jquery.ztree.all-3.5.min.js"></script>
+ 	
+ 	<!--User Defined -->
+    <link rel="stylesheet" href="/resources/manage/css/common.css" />
+    <script type="text/javascript" src="/resources/manage/js/menu/common.js"></script>
+    
+	<!-- inline scripts related to this page -->
+    
+
+</head>
+<script type="text/javascript" src="/resources/date/WdatePicker.js"></script>
+<script src="/resources/manage/js/Dialog.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<script type="text/javascript">
+function importAgain(id,type){
+	
+	var ids = new Array();
+	if(1==type){
+		var len = $(":checkbox[name=ids]:checked").length;
+		if (0 == len) {
+				alert('未选种需要添加的数据！');
+				return false;
+		}
+		if (!confirm("你确定导入这些信息吗？"))
+			return;
+		
+		$(":checkbox[name=ids]:checked").each(function() {
+			ids.push($(this).val());
+		});
+	}else{
+		if (!confirm("你确定导入这些信息吗？"))
+			return;
+		ids.push(id);
+	}
+	
+	$.blockUI({ message: "数据加载中，请稍候...",css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+    } }); 
+	
+	$.ajax({
+		type:"post",
+		url:"/manage/enterprise/importAgain",
+		data:{ids:ids.join(',')},
+		success:function(data, textStatus){
+			data = eval('('+data+')')
+			if(data.success)
+				alert('导入成功');
+			else
+				alert('导入失败,原因：'+data.msg);
+			 window.location.reload();
+			jQuery.unblockUI();
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+	
+}
+</script>
+<body>
+	<form role="form" style="margin: 5px;">
+		<div class="fl-l lead-btn" style="width:100px;" onclick="window.location.href='selectList';">返回</div>
+		<div class="fl-l lead-btn" style="width:100px;" onclick="importAgain(1,1)">导入</div>
+		<div class="clear"></div>
+	</form>
+	<!-- 
+	<ul class="form-ul">
+		<li><button class="edit-btn" id="toAddBtn" excuteUrl="toAdd" type="button" value="新增" >新增</button></li> 
+	</ul> -->
+	<div class="clear"></div>
+	<div class="form-div">
+
+	<table id="sample-table-1" cellpadding="0" cellspacing="0" class="common-tbl">
+			<tr height="36" class="tr-bg">
+				<td width="38" class="center"><label> <input type="checkbox"  id="firstCheckbox"
+						class="ace" /> <span class="lbl"></span> </label>
+				</td>
+				<td>企业名称</td>
+				<td>注册号</td>
+				<td>法定代表人</td>
+				<td>成立日期</td>
+				<td>管辖单位</td>
+				<td>企业类型</td>
+				<td>行业</td>
+				<td>导入时间</td>
+				<td>状态</td>
+				<td width="120">备注</td>
+				<td width="80">操作</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609942354615" /> <span class="lbl"></span> </label>
+				</td>
+				<td>延长石油</td>
+				<td>12</td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:05:42</td>
+ 				<td>导入失败</td>
+ 				<td>必填项为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609942354615" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609942354615',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609942354615);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842712936" /> <span class="lbl"></span> </label>
+				</td>
+				<td>天天数码</td>
+				<td></td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>企业注册号重复或为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842712936" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842712936',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842712936);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842633101" /> <span class="lbl"></span> </label>
+				</td>
+				<td>人人达乐</td>
+				<td></td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>企业注册号重复或为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842633101" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842633101',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842633101);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842554440" /> <span class="lbl"></span> </label>
+				</td>
+				<td>蔡芳物资</td>
+				<td></td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>企业注册号重复或为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842554440" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842554440',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842554440);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842474102" /> <span class="lbl"></span> </label>
+				</td>
+				<td>一一邮政</td>
+				<td></td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>企业注册号重复或为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842474102" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842474102',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842474102);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842395567" /> <span class="lbl"></span> </label>
+				</td>
+				<td>太久商行</td>
+				<td></td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>企业注册号重复或为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842395567" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842395567',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842395567);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609842301246" /> <span class="lbl"></span> </label>
+				</td>
+				<td>延长石油</td>
+				<td>12</td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 16:04:02</td>
+ 				<td>导入失败</td>
+ 				<td>必填项为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609842301246" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609842301246',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609842301246);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+			<tr height="36">
+				<td class="center"><label> <input type="checkbox" name="ids" 
+						class="ace" value="1509609323050324" /> <span class="lbl"></span> </label>
+				</td>
+				<td>光明</td>
+				<td>12</td>
+				<td></td>
+				<td></td>
+ 				<td></td>
+	 			<td></td>
+ 				<td></td>
+ 				<td>2017-11-02 15:55:23</td>
+ 				<td>导入失败</td>
+ 				<td>必填项为空！</td>
+				<td width="8%">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<a  href="viewRemain?id=1509609323050324" >查看</a><label class="common-lbl">|</label>
+						<!--   <a href="javascript:void(0);" onclick="importAgain('1509609323050324',2)" >导入</a><label class="common-lbl">|</label> -->
+						<a onclick="return isdelete(1509609323050324);" href="javascript:void(0);" >删除</a>
+					</div>
+				</td>
+			</tr>
+	</table>
+</div>
+<div class="total-right">
+
+<script type="text/javascript">
+ function jump(uri,ty) {
+	  var pNo = $("#topageNo").val();
+	  if(pNo=="" || pNo==null || pNo=="undefined"){
+	  	return false;
+	  }
+	  document.location.href = uri+"?pager.offset="+(pNo-1)*10+"&type="+ty;
+}
+ function jump(uri) {
+	  var pNo = $("#topageNo").val();
+	  if(pNo=="" || pNo==null || pNo=="undefined"){
+	  	return false;
+	  }
+	  document.location.href = uri+"?pager.offset="+(pNo-1)*10;
+}
+function checkNum(obj){
+	var gopage=$(obj).val();
+	 var reg = new RegExp("^[0-9]*$");  
+	 if(!reg.test(gopage)){  
+        $(obj).val("");
+        return false;
+     }  
+     var _size=13;
+     if(gopage>_size){
+      $(obj).val(_size);
+     }
+}
+
+</script>
+	<!-- 分页标签 1-->
+	<div class="pageDiv">
+
+					<label class="">共128条，当前第:13/13页，本页共8条</label>
+					<a href="selectRemainList?pager.offset=0" class="pageLink">首页</a>
+				<a href="selectRemainList?pager.offset=110" class="pageLink">上一页</a>
+	                <a href="selectRemainList?pager.offset=80" onClick="onSubmitPage();" class="pageLink">9</a>
+	                <a href="selectRemainList?pager.offset=90" onClick="onSubmitPage();" class="pageLink">10</a>
+	                <a href="selectRemainList?pager.offset=100" onClick="onSubmitPage();" class="pageLink">11</a>
+	                <a href="selectRemainList?pager.offset=110" onClick="onSubmitPage();" class="pageLink">12</a>
+                <span class="selectPageLink">13</span>
+				<a href="selectRemainList?pager.offset=120" class="pageLink">尾页</a>
+		   		  转到
+		      	<input id="topageNo" name="topageNo" onkeyup="checkNum(this);" class="page-txt" type="text" value />页
+		      <input type="button" class="page-btn" value="前往" onclick="jump('selectRemainList')" />
+		      
+		      
+	</div></div>
+<div class="clear"></div>
+</body>
+</html>
+<!-- page specific plugin scripts -->
+
+<script src="/resources/manage/js/jquery.dataTables.min.js"></script>
+<script src="/resources/manage/js/jquery.dataTables.bootstrap.js"></script>
+<link href="/resources/manage/cms/statics/css/dialog.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="/resources/manage/cms/statics/js/dialog.js"></script>
+<script type="text/javascript">
+			jQuery(function($) {
+				var oTable1 = $('#sample-table-2').dataTable( {
+				"aoColumns": [
+			      { "bSortable": false },
+			      null, null,null, null, null,
+				  { "bSortable": false }
+				] } );
+				
+				
+				$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+			
+			
+				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('table')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+			
+					var off2 = $source.offset();
+					var w2 = $source.width();
+			
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+			})
+			function isdelete(id){
+			if(window.confirm("删除后将无法恢复,确定要删除吗?")){
+				var url = "/manage/enterprise/deleteRemainById";
+				//location.href=url+"?ids="+ids;		
+				$.ajax({
+				    type: 'POST',
+				    url: url ,
+				    data: {"id":id} ,
+				    dataType: "json",
+		            success:function(data){
+		            	alert(data.msg);
+		            	window.location.reload();
+				    	//location.href="/manage/enterprise/selectList";
+		            }
+				});
+			}else {
+				return false;
+			}
+	}
+			
+			
+</script>
