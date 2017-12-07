@@ -14,7 +14,7 @@ sys.path.append("D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_co
 listaa = "D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code"
 def creatsuite():
     casedir = []
-    folder_list = os.listdir("D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code")
+    folder_list = os.listdir("D:\\Python\pycharm_code\\Local_Automation_Code\\榆林文化企业数据库平台\\thread1_TLEC_TestCases")
     for xx in folder_list:
         if "thread" in xx:
             casedir.append(xx)
@@ -30,7 +30,7 @@ def creatsuite():
     return suite,casedir
 def multiRunCase(suite,casedir):
     now = time.strftime("%Y-%m-%d-%H_%M_%S",time.localtime(time.time()))
-    filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\TLEC_Automation_code\\report\\' +now+ 'result.html'
+    filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\榆林文化企业数据库平台\\report\\' +now+ 'result.html'
     fp = open(filename,'wb')
     proclist = []
     s=0
@@ -88,7 +88,7 @@ def sendreportmail():
 
 if __name__ == "__main__":
     now = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
-    filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\TLEC_Automation_code\\report\\' + now + 'result.html'
+    filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\榆林文化企业数据库平台\\report\\' + now + 'result.html'
     runtmp=creatsuite()
     multiRunCase(runtmp[0],runtmp[1])
     sendreportmail()
@@ -158,11 +158,11 @@ if __name__ == "__main__":
 # import datetime
 # from email.mime.multipart import MIMEMultipart
 #
-# listaa = "D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code"
-# sys.path.append("D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code")
+# listaa = "D:\Python\pycharm_code\Local_Automation_Code\榆林文化企业数据库平台"
+# sys.path.append("D:\Python\pycharm_code\Local_Automation_Code\榆林文化企业数据库平台")
 # def createsuit():
 #     casedir =[]
-#     folder_list=os.listdir("D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code")
+#     folder_list=os.listdir("D:\Python\pycharm_code\Local_Automation_Code\榆林文化企业数据库平台")
 #     for xx in folder_list:
 #         if "thread" in xx:
 #             casedir.append(xx)
@@ -177,7 +177,7 @@ if __name__ == "__main__":
 #     return casedir,suit
 # def MutiRunCase(suit,casedir):
 #     now = time.strftime("%Y-%m-%d-%H_%M_%S",time.localtime(time.time()))
-#     filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\TLEC_Automation_code\\report\\' + now + 'result.html'
+#     filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\榆林文化企业数据库平台\\report\\' + now + 'result.html'
 #     f = open(filename,'wb')
 #     prolist = []
 #     s = 0
@@ -225,7 +225,7 @@ if __name__ == "__main__":
 #     except smtplib.SMTPException:
 #         print('邮件发送失败')
 # def sendreportemail():
-#     results_dir = "D:\Python\pycharm_code\Local_Automation_Code\TLEC_Automation_code"
+#     results_dir = "D:\Python\pycharm_code\Local_Automation_Code\榆林文化企业数据库平台"
 #     lists = os.listdir(results_dir)
 #     lists.sort(key=lambda fn:os.path.getmtime(results_dir + "\\" +fn) if not os.path.isdir(results_dir + "\\" + fn) else 0 )
 #     print(u'最新测试报告' + lists[-2])
@@ -235,7 +235,7 @@ if __name__ == "__main__":
 #
 # if __name__ == "__main__":
 #     now = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
-#     filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\TLEC_Automation_code\\report\\' +now+ 'result.html'
+#     filename = 'D:\\Python\\pycharm_code\\Local_Automation_Code\\榆林文化企业数据库平台\\report\\' +now+ 'result.html'
 #     runtmp=createsuit()
 #     MutiRunCase(runtmp[0],runtmp[1])
 #     sendreportemail()
