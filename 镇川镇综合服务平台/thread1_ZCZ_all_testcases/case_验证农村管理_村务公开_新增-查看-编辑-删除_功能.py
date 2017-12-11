@@ -150,6 +150,7 @@ class Case(unittest.TestCase):
         Select(driver.find_element_by_id("publicTypeId")).select_by_visible_text(u"村务公开")
         Select(driver.find_element_by_id("publicSTypeId")).select_by_visible_text(u"宅基地审批")
         driver.find_element_by_css_selector("button.save-btn").click()
+        print("编辑成功")
         driver.find_element_by_name("title").clear()
         driver.find_element_by_name("title").send_keys(u"测试")
         driver.find_element_by_id("queryBtn").click()
@@ -158,8 +159,6 @@ class Case(unittest.TestCase):
         driver.find_element_by_link_text(u"查看").click()
         driver.find_element_by_name("dosubmit").click()
         self.accept_next_alert = False
-        driver.find_element_by_link_text(u"删除").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除该条记录吗[\s\S]$")
         driver.find_element_by_link_text(u"删除").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除该条记录吗[\s\S]$")
         driver.find_element_by_name("title").clear()
