@@ -175,6 +175,8 @@ class Case(unittest.TestCase):
         driver.find_element_by_id("userNameId").clear()
         driver.find_element_by_id("userNameId").send_keys(u"张三")
         driver.find_element_by_id("queryBtn").click()
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("按条件查找成员'张三'，统计的姓名为张三的成员总数为%d个" % int(value))
         driver.find_element_by_link_text("查看").click()
         driver.switch_to_frame(driver.find_element_by_id("atrDialogIframe_userId"))
         # ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
@@ -200,16 +202,30 @@ class Case(unittest.TestCase):
         driver.find_element_by_id("userNameId").clear()
         driver.find_element_by_id("userNameId").send_keys(u"张三")
         driver.find_element_by_id("queryBtn").click()
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("按条件查找成员'张三'，统计的姓名为张三的成员总数为%d个" % int(value))
         self.accept_next_alert = False
         driver.find_element_by_link_text(u"成员删除").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此成员记录吗[\s\S]$")
         driver.find_element_by_link_text(u"成员删除").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此成员记录吗[\s\S]$")
+
+        Select(driver.find_element_by_id("villageId")).select_by_visible_text(u"八塌湾村委会")
+        Select(driver.find_element_by_id("houseReId")).select_by_visible_text(u"之子")
+        driver.find_element_by_id("userNameId").clear()
+        driver.find_element_by_id("userNameId").send_keys(u"张三")
+        driver.find_element_by_id("queryBtn").click()
+
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("删除按条件查找的成员'张三'后，统计的姓名为张三的成员总数为%d个"% int(value))
+        time.sleep(5)
         Select(driver.find_element_by_id("villageId")).select_by_visible_text(u"八塌湾村委会")
         Select(driver.find_element_by_id("houseReId")).select_by_visible_text(u"之女婿")
         driver.find_element_by_id("userNameId").clear()
         driver.find_element_by_id("userNameId").send_keys(u"李四")
         driver.find_element_by_id("queryBtn").click()
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("按条件查找成员'李四'，统计的姓名为李四的成员总数为%d个" % int(value))
         driver.find_element_by_link_text("查看").click()
         # ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
         driver.switch_to_frame(driver.find_element_by_id("atrDialogIframe_userId"))
@@ -235,11 +251,22 @@ class Case(unittest.TestCase):
         driver.find_element_by_id("userNameId").clear()
         driver.find_element_by_id("userNameId").send_keys(u"李四")
         driver.find_element_by_id("queryBtn").click()
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("按条件查找成员'李四'，统计的姓名为李四的成员总数为%d个" % int(value))
         self.accept_next_alert = False
         driver.find_element_by_link_text(u"成员删除").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此成员记录吗[\s\S]$")
         driver.find_element_by_link_text(u"成员删除").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此成员记录吗[\s\S]$")
+
+        Select(driver.find_element_by_id("villageId")).select_by_visible_text(u"八塌湾村委会")
+        Select(driver.find_element_by_id("houseReId")).select_by_visible_text(u"之子")
+        driver.find_element_by_id("userNameId").clear()
+        driver.find_element_by_id("userNameId").send_keys(u"张三")
+        driver.find_element_by_id("queryBtn").click()
+
+        value = driver.find_element_by_name("totalNum").get_attribute("value")
+        print("删除按条件查找的成员'李四'后，统计的姓名为李四的成员总数为%d个" % int(value))
         driver.switch_to_default_content()
         driver.find_element_by_link_text(u"退出").click()
     
