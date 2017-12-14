@@ -75,6 +75,7 @@ class Case(unittest.TestCase):
         driver.switch_to_default_content()
         driver.switch_to_frame(driver.find_element_by_class_name("iframeClass"))
         driver.find_element_by_id("startDate").click()
+       #清除选择时间快速选择
         driver.switch_to_default_content()
         driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[1]/iframe"))
         driver.find_element_by_xpath("/html/body/div/div[3]/table/tbody/tr[2]/td[6]").click()
@@ -82,6 +83,14 @@ class Case(unittest.TestCase):
         driver.switch_to_default_content()
         driver.switch_to_frame(driver.find_element_by_class_name("iframeClass"))
         driver.find_element_by_id("startDate").click()
+        driver.switch_to_default_content()
+        driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[1]/iframe"))
+        driver.find_element_by_id("dpQS").click()
+        driver.find_element_by_xpath("/html/body/div/div[2]/table/tbody/tr[2]/td").click()
+        driver.switch_to_default_content()
+        driver.switch_to_frame(driver.find_element_by_class_name("iframeClass"))
+        driver.find_element_by_id("startDate").click()
+       #今天
         driver.switch_to_default_content()
         driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[1]/iframe"))
         driver.find_element_by_id("dpTodayInput").click()
@@ -124,6 +133,16 @@ class Case(unittest.TestCase):
         driver.find_element_by_id("name").send_keys("2018")
         driver.find_element_by_css_selector("button.form-btn").click()
         driver.find_element_by_id("resetBtn").click()
+
+        #全选删除功能
+        driver.find_element_by_id("firstCheckbox").click()
+        self.accept_next_alert = False
+        driver.find_element_by_id("toDelBtn").click()
+        self.assertEqual(u"你确定要删除选中的1条记录吗？", self.close_alert_and_get_its_text())
+        driver.find_element_by_id("toDelBtn").click()
+        self.assertEqual(u"你确定要删除选中的1条记录吗？", self.close_alert_and_get_its_text())
+        time.sleep(5)
+        self.assertEqual(u"删除成功！", self.close_alert_and_get_its_text())
         driver.switch_to_default_content()
         driver.find_element_by_link_text(u"退出").click()
     
