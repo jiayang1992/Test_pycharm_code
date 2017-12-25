@@ -14,13 +14,13 @@ class Cese(unittest.TestCase):
         os.environ['webdriver.chrome.driver'] = executable_path
         self.driver = webdriver.Chrome(executable_path,chrome_options=option)
         self.driver.implicitly_wait(30)
-        self.base_url = "http://101.201.41.228:7006/ylsn1.5/manage/user/home"
+        self.base_url = "http://124.115.106.140:7001/manage/user/home"
         self.verificationErrors = []
         self.accept_next_alert = True
     
     def test_cese(self):
         driver = self.driver
-        driver.get(self.base_url + "/ylsn1.5/manage/user/home")
+        driver.get(self.base_url + "/")
         driver.maximize_window()
         driver.find_element_by_id("userNameCopy").clear()
         driver.find_element_by_id("userNameCopy").send_keys("admin")
