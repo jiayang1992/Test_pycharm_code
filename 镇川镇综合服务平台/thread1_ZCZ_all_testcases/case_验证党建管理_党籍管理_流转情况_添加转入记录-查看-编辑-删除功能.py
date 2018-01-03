@@ -34,7 +34,7 @@ class Case(unittest.TestCase):
         # ERROR: Caught exception [ERROR: Unsupported command [selectFrame |  | ]]
         # ERROR: Caught exception [ERROR: Unsupported command [selectFrame |  | ]]
         driver.switch_to_frame(driver.find_element_by_id("iframeMenuEdit"))
-        driver.find_element_by_css_selector("input.form-btn").click()
+        driver.find_element_by_xpath("//*[@id='partyFlowFormId']/ul/li[2]/input").click()
         # ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
         driver.switch_to_frame(driver.find_element_by_id("atrDialogIframe_addPartyFlowId"))
         driver.find_element_by_xpath("//input[@id='closeId']").click()
