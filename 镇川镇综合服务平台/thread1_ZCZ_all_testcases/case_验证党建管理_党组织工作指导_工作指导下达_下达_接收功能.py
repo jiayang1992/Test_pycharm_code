@@ -144,12 +144,12 @@ class Case(unittest.TestCase):
                 # driver.find_element_by_id("partGroupTree_1_switch").click()
                 # driver.find_element_by_id("partGroupTree_4_span").click()
                 # driver.switch_to_frame(driver.find_element_by_id("iframeMenuEdit"))
-        self.accept_next_alert = False
-        driver.find_element_by_xpath(u"(//a[contains(text(),'删除')])[1]").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此党组织工作指导信息吗[\s\S]$")
-        driver.find_element_by_xpath(u"(//a[contains(text(),'删除')])[1]").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此党组织工作指导信息吗[\s\S]$")
-        self.assertEqual(u"删除成功！", self.close_alert_and_get_its_text())
+        # self.accept_next_alert = False
+        # driver.find_element_by_xpath(u"(//a[contains(text(),'删除')])[1]").click()
+        # self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此党组织工作指导信息吗[\s\S]$")
+        # driver.find_element_by_xpath(u"(//a[contains(text(),'删除')])[1]").click()
+        # self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^确定删除此党组织工作指导信息吗[\s\S]$")
+        # self.assertEqual(u"删除成功！", self.close_alert_and_get_its_text())
         # ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
                 # driver.switch_to_default_content()
                 # driver.find_element_by_id("second-31").click()
