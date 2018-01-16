@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re, os
 
 
-class Case2015(unittest.TestCase):
+class Case2016(unittest.TestCase):
     def setUp(self):
         option = webdriver.ChromeOptions()
         executable_path = "C:\\Users\\admin\\AppData\\Local\\Google\\Chrome\\Application\\chromedriver.exe"
@@ -19,7 +19,7 @@ class Case2015(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_case2015(self):
+    def test_case2016(self):
         driver = self.driver
         driver.get(self.base_url + "/manage/user/home")
         driver.maximize_window()
